@@ -1,0 +1,5 @@
+						"{{forwardZone}}": {
+							"nameservers": [
+								"{{multi:nameservers}}"
+							]
+						},

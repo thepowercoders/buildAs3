@@ -1,0 +1,8 @@
+				"{{Class:Monitor}}": {
+					"class": "Monitor",
+					"monitorType": "inband",
+					"failures": {{failures}},
+					"failureInterval": {{failureInterval}},
+					"responseTime": {{responseTime}},
+					"retryTime": {{retryTime}}
+				},

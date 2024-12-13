@@ -1,0 +1,20 @@
+                "{{Class:Service_Forwarding}}": {
+                    "class": "Service_Forwarding",
+                    "virtualPort": {{virtualPort}},
+                    "virtualAddresses": [
+                        {{virtualAddresses}}
+                    ],
+                    "remark": "{{remark}}",
+                    "addressStatus": true,
+                    "allowVlans": [
+                        "{{multi:allowVlans}}"
+                        ],
+                    "forwardingType": "ip",
+                    "layer4": "any",
+                    "snat": "none",
+                    "profileL4": {
+                        "bigip": "/Common/fastL4"
+                    },
+                    "translateServerAddress": false,
+                    "translateServerPort": false
+                }

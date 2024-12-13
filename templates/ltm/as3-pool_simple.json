@@ -1,0 +1,18 @@
+				"{{Class:Pool}}": {
+					"class": "Pool",
+					"remark": "{{remark}}",
+					"monitors": [
+						{ "use": "{{multi:monitor}}"}
+					],
+					"minimumMonitors": "{{minimumMonitors}}",
+					"members": [
+						{
+							"serverAddresses": [
+								"{{multi:serverAddresses}}"
+							],
+							"adminState": "enable",
+							"shareNodes": {{shareNodes}},
+							"servicePort": {{servicePort}}
+						}
+					]
+				},

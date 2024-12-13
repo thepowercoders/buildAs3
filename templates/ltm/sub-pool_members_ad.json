@@ -1,0 +1,7 @@
+						{
+							"addressDiscovery": {
+								"use": "{{addressDiscovery}}"
+							},
+                            "servicePort": {{servicePort}},
+                            "adminState": "enable"
+						}

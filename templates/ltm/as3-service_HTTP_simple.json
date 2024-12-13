@@ -1,0 +1,18 @@
+				"{{Class:Service_HTTP}}": {
+					"class": "Service_HTTP",
+					"virtualAddresses": [
+						"{{virtualAddresses}}"
+						],
+					"profileHTTP": {
+						"bigip": "/Common/http"
+					},
+					"remark": "{{remark}}",
+					"addressStatus": true,
+					"allowVlans": [
+						"{{allowVlans}}"
+						],
+					"virtualPort": {{virtualPort}},
+					"iRules": [
+						{"use": "{{iRules}}"}
+					]
+				}

@@ -1,0 +1,13 @@
+				"{{Class:Monitor}}": {
+					"class": "Monitor",
+					"monitorType": "external",
+                    "remark": "{{remark}}",
+					"targetPort": {{targetPort}},
+					"interval": {{interval}},
+					"timeout": {{timeout}},
+					"pathname": "{{pathname}}",
+                    "environmentVariables":
+                    {
+                        {{kvtable:monitor_ext_variables}}
+                    }
+				},

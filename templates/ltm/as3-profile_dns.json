@@ -1,0 +1,18 @@
+				"{{Class:DNS_Profile}}": {
+					"class": "DNS_Profile",
+					"remark": "{{remark}}",
+					"parentProfile": {
+						"bigip": "/Common/dns"
+					},
+					"cacheEnabled": {{cacheEnabled}},
+					"cache": { "use" : "{{cache}}" },
+					"localBindServerEnabled": false,
+					"rapidResponseEnabled": false,
+					"unhandledQueryAction": "{{unhandledQueryAction}}",
+					"dnssecEnabled": false,
+					"globalServerLoadBalancingEnabled": {{globalServerLoadBalancingEnabled}},
+					"dnsExpressEnabled": false,
+					"zoneTransferEnabled": false,
+					"recursionDesiredEnabled": {{recursionDesiredEnabled}},
+					"securityEnabled": false
+				},

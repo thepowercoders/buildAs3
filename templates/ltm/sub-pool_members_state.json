@@ -1,0 +1,8 @@
+						{
+							"serverAddresses": [
+								"{{serverAddress}}"
+							],
+                            "servicePort": {{servicePort}},
+                            "adminState": "{{adminState}}",
+							"priorityGroup": {{priorityGroup}}
+						}

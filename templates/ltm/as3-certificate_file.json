@@ -1,0 +1,6 @@
+				"{{Class:Certificate}}": {
+					"class": "Certificate",
+					"certificate": "{{cert:certificate}}",
+					"privateKey": "{{cert:privateKey}}",
+					"remark": "{{Class:Certificate}}"
+				}

@@ -1,0 +1,7 @@
+				"{{Class:GSLB_Topology_Records}}": {
+					"class": "GSLB_Topology_Records",
+					"label": "{{label}}",
+					"records": [
+						{{subtable:GSLB_Topology_Records}}
+					]
+				},

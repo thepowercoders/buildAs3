@@ -1,0 +1,7 @@
+						{
+							"ratio": {{ratio}},
+							"server": {
+								"{{use}}": "{{server}}"
+							},
+							"virtualServer": "{{virtualServer}}"
+						},

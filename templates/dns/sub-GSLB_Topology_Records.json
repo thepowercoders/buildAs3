@@ -1,0 +1,17 @@
+					{
+						"source": {
+							"matchType": "{{source_matchType}}",
+							"matchOperator": "{{source_matchOperator}}",
+							"matchValue": {
+								"{{source_matchValue_use}}": "{{source_matchValue}}"
+							}
+						},
+						"destination": {
+							"matchType": "{{destination_matchType}}",
+							"matchOperator": "{{destination_matchOperator}}",
+							"matchValue": {
+								"{{destination_matchValue_use}}": "{{destination_matchValue}}"
+							}
+						},
+						"weight": {{weight}}
+					},

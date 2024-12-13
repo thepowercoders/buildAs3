@@ -1,0 +1,6 @@
+                "{{Class:Firewall_Rule_List}}": {
+                    "class": "Firewall_Rule_List",
+                    "rules": [
+                    {{subtable:firewall_rule}}
+                    ]
+                },

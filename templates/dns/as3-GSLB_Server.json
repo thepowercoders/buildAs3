@@ -1,0 +1,19 @@
+                "{{Class:GSLB_Server}}": {
+                    "class": "GSLB_Server",
+                    "dataCenter": {
+                        "use": "{{dataCenter}}"
+                    },
+                    "devices": [
+                        {{subtable:GSLB_Server_Device}}
+                    ],
+                    "monitors": [
+                        {
+                            "bigip": "{{GSLB_Monitor}}"
+                        }
+                    ],
+                    "serverType": "{{serverType}}",
+                    "virtualServerDiscoveryMode": "{{virtualServerDiscoveryMode}}",
+                    "virtualServers": [
+                        {{subtable:GSLB_Server_vips}}
+                    ]
+                },

@@ -1,0 +1,19 @@
+                "{{Class:HTTP_Profile}}": {
+                    "class": "HTTP_Profile",
+                    "proxyConnectEnabled": false,
+                    "proxyType": "reverse",
+                    "serverHeaderValue": "{{serverHeaderValue}}",
+                    "remark": "{{remark}}",
+                    "truncatedRedirects": false,
+                    "maxHeaderSize": 32768,
+                    "maxHeaderCount": 64,
+                    "pipelineAction": "allow",
+                    "unknownMethodAction": "allow",
+                    "knownMethods": [
+                        "{{multi:knownMethods}}" 
+                    ],
+                    "insertHeader": {
+                        "name": "{{insertHeader_name}}",
+                        "value": "{{insertHeader_value}}"
+                    }
+                },

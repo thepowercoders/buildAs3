@@ -1,0 +1,8 @@
+                "{{Class:GSLB_Data_Center}}": {
+                    "class": "GSLB_Data_Center",
+                    "enabled": true,
+                    "location": "{{location}}",
+                    "remark": "{{remark}}",
+                    "proberPreferred": "{{proberPreferred}}",
+                    "proberFallback": "{{proberFallback}}"
+                }

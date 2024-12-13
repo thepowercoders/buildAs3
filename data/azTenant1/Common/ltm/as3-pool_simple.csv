@@ -1,0 +1,2 @@
+device,application,Class:Pool,remark,multi:serverAddresses,servicePort,multi:monitor,minimumMonitors,shareNodes
+vm-bigip-001,Shared,pool-telemetry,Telemetry Streaming to Azure Sentinel,255.255.255.254,6514,!DELETE!,!DELETE!,!DELETE!

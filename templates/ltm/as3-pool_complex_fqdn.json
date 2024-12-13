@@ -1,0 +1,17 @@
+				"{{Class:Pool}}": {
+					"class": "Pool",
+					"remark": "{{remark}}",
+					"monitors": [
+						{ "use": "{{multi:monitor}}"}
+					],
+					"members": [
+						{
+							"addressDiscovery": "fqdn",
+							"adminState": "enable",
+							"shareNodes": {{shareNodes}},
+							"autoPopulate": {{autoPopulate}},
+							"hostname": "{{hostname}}",
+							"servicePort": {{servicePort}}
+						}
+					]
+				},

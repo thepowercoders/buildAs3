@@ -1,0 +1,6 @@
+                "{{Class:Firewall_Policy}}": {
+                    "class": "Firewall_Policy",
+                    "rules": [
+                    {{subtable:policy_rulelists}}
+                    ]
+                },

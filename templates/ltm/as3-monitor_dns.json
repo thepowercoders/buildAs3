@@ -1,0 +1,13 @@
+				"{{Class:Monitor}}": {
+					"class": "Monitor",
+					"monitorType": "dns",
+					"targetAddress": "{{targetAddress}}",
+					"targetPort": {{targetPort}},
+					"interval": {{interval}},
+					"timeout": {{timeout}},
+					"transparent": false,
+					"acceptRCODE": "no-error",
+					"answerContains": "query-type",
+					"queryName": "{{queryName}}",
+					"queryType": "{{queryType}}"
+				},

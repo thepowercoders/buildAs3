@@ -1,0 +1,6 @@
+                "{{Class:Firewall_Address_List}}": {
+                    "class": "Firewall_Address_List",
+                    "addresses": [
+                        "{{multi:fw_cidr}}"
+                    ]
+                },

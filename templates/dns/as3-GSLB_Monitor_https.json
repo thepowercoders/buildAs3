@@ -1,0 +1,14 @@
+				"{{Class:GSLB_Monitor}}": {
+					"class": "GSLB_Monitor",
+					"monitorType": "https",
+					"remark": "{{remark}}",
+					"clientCertificate": { "use": "{{clientTLS}}" },
+					"send": "{{send}}",
+					"receive": "{{receive}}",
+					"interval": {{interval}},
+					"debugEnabled": {{debugEnabled}},
+					"ignoreDownResponseEnabled": {{ignoreDownResponseEnabled}},
+					"timeUntilUp": 15,
+					"timeout": {{timeout}},
+					"probeTimeout": {{probeTimeout}}
+				},

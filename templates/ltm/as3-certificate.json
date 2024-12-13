@@ -1,0 +1,6 @@
+				"{{Class:Certificate}}": {
+					"class": "Certificate",
+					"certificate": { "bigip": "{{certificate}}" },
+					"privateKey": { "bigip": "{{privateKey}}" },
+					"chainCA": { "bigip": "{{chainCA}}" }
+				}

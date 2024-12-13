@@ -1,0 +1,9 @@
+				"{{Class:GSLB_Domain}}": {
+					"class": "GSLB_Domain",
+					"domainName": "{{domainName}}",
+					"resourceRecordType": "{{resourceRecordType}}",
+					"pools": [
+						{ "use": "{{multi:pools}}" }
+					],
+					"poolLbMode": "{{poolLbMode}}"
+				},

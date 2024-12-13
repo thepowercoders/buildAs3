@@ -1,0 +1,8 @@
+                "{{Class:Monitor}}": {
+                    "class": "Monitor",
+                    "monitorType": "tcp-half-open",
+                    "remark": "{{remark}}",
+                    "interval": {{interval}},
+                    "timeout": {{timeout}},
+                    "targetPort": {{targetPort}}
+                }

@@ -1,0 +1,23 @@
+                "{{remote-high-speed-log}}": {
+                    "class": "Log_Destination",
+                    "type": "remote-high-speed-log",
+                    "protocol": "tcp",
+                    "pool": {
+                        "use": "{{pool}}"
+                    }
+                },
+                "{{Log_Destination}}": {
+                    "class": "Log_Destination",
+                    "type": "splunk",
+                    "forwardTo": {
+                        "use": "{{remote-high-speed-log}}"
+                    }
+                },
+                "{{Class:Log_Publisher}}": {
+                    "class": "Log_Publisher",
+                    "destinations": [
+                        {
+                            "use": "{{Log_Destination}}"
+                        }
+                    ]
+                },

@@ -1,0 +1,24 @@
+{
+	"vm-test-dev-uks-bigip-001" : {
+		"azureTenant": "azure_tenant_1",
+		"deviceGroup": [
+			"test-bigip"
+		],
+		"AS3ClassList": [
+			"profile_http",
+			"pool_simple",
+			"irule",
+			"certificate",
+			"certificate_file",
+			"monitor_http",
+			"monitor_https",
+			"tls_client",
+			"tls_server",
+			"service_HTTPS",
+			"service_HTTP",
+			"logging",
+			"Security_Log_Profile",
+			"Traffic_Log_Profile"
+		]
+	}
+}

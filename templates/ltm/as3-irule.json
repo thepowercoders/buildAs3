@@ -1,0 +1,7 @@
+                "{{Class:iRule}}": {
+                    "class": "iRule",
+                    "remark": "{{remark}}",
+                    "iRule": {
+                        "base64": "{{irule:base64}}"
+                    }
+                },

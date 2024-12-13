@@ -1,0 +1,12 @@
+                "{{Class:Monitor}}": {
+                    "class": "Monitor",
+                    "monitorType": "http",
+                    "remark": "{{remark}}",
+                    "send": "{{send}}",
+                    "receiveDown": "{{receiveDown}}",
+                    "receive": "{{receive}}",
+                    "interval": {{interval}},
+                    "timeUntilUp": 15,
+                    "timeout": {{timeout}},
+                    "targetPort": {{targetPort}}
+                }

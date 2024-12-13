@@ -1,0 +1,14 @@
+				"{{Class:Service_TCP}}": {
+					"class": "Service_TCP",
+					"virtualAddresses": [
+							[ "{{virtualAddresses}}","{{sourceAddress}}" ]
+						],
+					"iRules": [
+						"{{multi:iRules}}"
+					],
+					"pool": "{{pool}}",
+					"remark": "{{remark}}",
+					"addressStatus": true,
+					"virtualPort": {{virtualPort}},
+					"allowVlans": ["{{allowVlans}}"],
+				},

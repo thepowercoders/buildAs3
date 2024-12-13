@@ -1,0 +1,10 @@
+							{
+								"type": "{{vector}}",
+								"state": "{{state}}",
+								"thresholdMode": "{{thresholdMode}}",
+								"rateThreshold": {{rateThreshold}},
+								"rateIncreaseThreshold": {{rateIncreaseThreshold}},
+								"rateLimit": {{rateLimit}},
+								"autoAttackFloor": {{autoAttackFloor}},
+								"autoAttackCeiling": {{autoAttackCeiling}}
+							},

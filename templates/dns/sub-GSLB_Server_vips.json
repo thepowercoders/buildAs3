@@ -1,0 +1,10 @@
+						{
+							"address": "{{address}}",
+							"monitors": [
+								{
+									"{{monitors}}": "{{GSLB_Monitor}}"
+								}
+							],
+							"name": "{{name}}",
+							"port": {{port}}
+						}

@@ -1,0 +1,8 @@
+                "{{Class:WAF_Policy}}": {
+                    "class": "WAF_Policy",
+                    "enforcementMode": "{{enforcementMode}}",
+                    "label": "{{Class:WAF_Policy}}",
+                    "policy": {
+                        "base64": "{{waf:policy}}"
+                    }
+                }

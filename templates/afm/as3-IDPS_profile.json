@@ -1,0 +1,17 @@
+				"{{Class:Protocol_Inspection_Profile}}": {
+					"class": "Protocol_Inspection_Profile",
+					"remark": "{{remark}}",
+					"collectAVRStats": true,
+					"enableComplianceChecks": true,
+					"enableSignatureChecks": true,
+					"autoAddNewInspections": true,
+					"autoPublish": true,
+					"services": [
+						{
+							"type": "{{type}}",
+							"ports": [
+								{{multi:ports}}
+							]
+						}
+					]
+				},

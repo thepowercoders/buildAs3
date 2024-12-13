@@ -1,0 +1,21 @@
+			"{{Class:Service_UDP}}": {
+				"class": "Service_UDP",
+				"virtualAddresses": [
+					"{{virtualAddresses}}"
+				],
+				"shareAddresses": {{shareAddresses}},
+				"iRules": [
+					{"{{iRules_use}}": "{{multi:iRules}}"}
+				],
+				"virtualPort": {{virtualPort}},
+				"profileUDP": {
+					"bigip": "/Common/udp"
+				},
+				"{{profile_type}}": {
+					"{{profile_use}}": "{{profile_name}}"
+				},
+				"remark": "{{remark}}",
+				"allowVlans": [
+					"{{multi:allowVlans}}"
+				]
+			},

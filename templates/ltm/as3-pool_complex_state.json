@@ -1,0 +1,11 @@
+				"{{Class:Pool}}": {
+					"class": "Pool",
+					"remark": "{{remark}}",
+					"loadBalancingMode": "{{loadBalancingMode}}",
+					"monitors": [
+						{ "use": "{{multi:monitor}}"}
+					],
+					"members": [
+						{{subtable:pool_members_state}}
+					]
+				},

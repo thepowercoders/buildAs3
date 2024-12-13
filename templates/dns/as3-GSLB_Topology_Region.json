@@ -1,0 +1,7 @@
+				"{{Class:GSLB_Topology_Region}}": {
+					"class": "GSLB_Topology_Region",
+					"label": "{{label}}",
+					"members": [
+						{{subtable:GSLB_Topology_Region_members}}
+					]
+				},

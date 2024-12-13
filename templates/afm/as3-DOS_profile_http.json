@@ -1,0 +1,19 @@
+				"{{Class:DOS_Profile}}": {
+					"class": "DOS_Profile",
+					"application": {
+						"rateBasedDetection": {
+							"operationMode": "{{TPS_operationMode}}",
+							"thresholdsMode": "{{TPS_thresholdsMode}}",
+							"escalationPeriod": {{TPS_escalationPeriod}},
+							"deEscalationPeriod": {{TPS_deEscalationPeriod}}
+						},
+						"stressBasedDetection": {
+							"operationMode": "{{Stress_operationMode}}",
+							"thresholdsMode": "{{Stress_thresholdsMode}}",
+							"escalationPeriod": {{Stress_escalationPeriod}},
+							"deEscalationPeriod": {{Stress_deEscalationPeriod}}
+						}
+					},
+					"applicationAllowlist": { "use": "{{applicationAllowlist}}" },
+					"remark": "{{remark}}"
+				},

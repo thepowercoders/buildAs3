@@ -1,0 +1,14 @@
+                "{{Class:TLS_Client}}": {
+                    "class": "TLS_Client",
+                    "remark": "{{Class:TLS_Client}}",
+					"allowExpiredCRL": false,
+					"cipherGroup": { "bigip": "{{cipherGroup}}" },
+                    "authenticationFrequency": "every-time",
+                    "dtlsEnabled": false,
+                    "dtls1_2Enabled": false,
+                    "clientCertificate": "{{clientCertificate}}",
+					"validateCertificate": {{validateCertificate}},
+					"sendSNI": "{{sendSNI}}",
+                    "cacheTimeout": {{cacheTimeout}},
+                    "trustCA": { "bigip": "{{trustCA}}" }
+                },

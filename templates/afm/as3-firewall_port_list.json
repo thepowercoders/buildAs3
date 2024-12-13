@@ -1,0 +1,6 @@
+                "{{Class:Firewall_Port_List}}": {
+                    "class": "Firewall_Port_List",
+                    "ports": [
+                        {{multi:port}}
+                    ]
+                },

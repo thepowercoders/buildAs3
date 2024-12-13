@@ -1,0 +1,12 @@
+				"{{Class:Data_Group}}": {
+					"class": "Data_Group",
+					"remark": "{{remark}}",
+					"keyDataType": "{{keyDataType}}",
+					"storageType": "{{storageType}}",
+					"records":  [
+                        {
+                            "key": "{{key}}",
+                            "value": "{{value}}"
+                        }
+                    ]
+				},

@@ -1,0 +1,49 @@
+                "{{Class:Security_Log_Profile}}": {
+                    "class": "Security_Log_Profile",
+                    "application": {
+                        "localStorage": false,
+                        "remoteStorage": "splunk",
+                        "protocol": "tcp",
+                        "servers": [
+                            {
+                                "address": "127.0.0.1",
+                                "port": "6514"
+                            }
+                        ],
+                        "storageFilter": {
+                            "requestType": "all"
+                        }
+                    },
+                    "network": {
+                        "publisher": {
+                            "use": "{{publisher}}"
+                        },
+                        "logRuleMatchAccepts": false,
+                        "logRuleMatchRejects": true,
+                        "logRuleMatchDrops": true,
+                        "logIpErrors": true,
+                        "logTcpErrors": true,
+                        "logTcpEvents": true
+                    },
+                    "dosApplication": {
+                        "remotePublisher": {
+                            "use": "{{publisher}}"
+                        }
+                    },
+                    "dosNetwork": {
+                        "publisher": {
+                            "use": "{{publisher}}"
+                        }
+                    },
+                    "protocolDnsDos": {
+                        "publisher": {
+                            "use": "{{publisher}}"
+                        }
+                    },
+                    "protocolInspection": {
+                        "publisher": {
+                            "use": "{{publisher}}"
+                        },
+                        "logPacketPayloadEnabled": true
+                    }
+                }

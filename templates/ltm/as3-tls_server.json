@@ -1,0 +1,16 @@
+                "{{Class:TLS_Server}}": {
+                    "class": "TLS_Server",
+                    "authenticationMode": "{{authenticationMode}}",
+                    "forwardProxyEnabled": false,
+                    "authenticationFrequency": "every-time",
+                    "remark": "{{Class:TLS_Server}}",
+                    "certificates": [
+                        {
+                            "certificate": "{{certificate}}"
+                        }
+                    ],
+                    "authenticationTrustCA": {
+                        "bigip": "{{authenticationTrustCA}}.crt"
+                    },
+                    "cacheTimeout": {{cacheTimeout}}
+                },

@@ -1,0 +1,6 @@
+						"{{localZone}}": {
+							"type": "{{type}}",
+							"records": [
+								"{{dns:zonefile}}"
+							]
+						},

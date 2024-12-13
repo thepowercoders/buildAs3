@@ -1,0 +1,16 @@
+				"{{Class:Service_TCP}}": {
+					"class": "Service_TCP",
+					"virtualAddresses": [
+						"{{virtualAddresses}}"
+						],
+					"pool": "{{pool}}",
+					"remark": "{{remark}}",
+					"addressStatus": true,
+					"allowVlans": [
+						"{{allowVlans}}"
+						],
+					"virtualPort": {{virtualPort}},
+					"redirect80": false,
+					"clientTLS": "{{clientTLS}}",
+					"serverTLS": "{{serverTLS}}"
+				},

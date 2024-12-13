@@ -1,0 +1,19 @@
+                "{{Class:Traffic_Log_Profile}}": {
+                    "class": "Traffic_Log_Profile",
+                    "requestSettings": {
+                        "requestEnabled": {{requestEnabled}},
+                        "requestProtocol": "mds-tcp",
+                        "requestPool": {
+                            "use": "{{requestPool}}"
+                        },
+                        "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",dest_ip=\"$VIRTUAL_IP\",dest_port=\"$VIRTUAL_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",Microtimestamp=\"$TIME_USECS\""
+                    },
+                    "responseSettings": {
+                        "responseEnabled": {{responseEnabled}},
+                        "responseProtocol": "mds-tcp",
+                        "responsePool": {
+                            "use": "{{responsePool}}"
+                        },
+                        "responseTemplate": "event_source=\"response_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",http_statcode=\"$HTTP_STATCODE\",http_status=\"$HTTP_STATUS\",Microtimestamp=\"$TIME_USECS\",response_ms=\"$RESPONSE_MSECS\""
+                    }
+                },            

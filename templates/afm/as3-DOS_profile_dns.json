@@ -1,0 +1,10 @@
+				"{{Class:DOS_Profile}}": {
+					"class": "DOS_Profile",
+					"protocolDNS": {
+						"vectors": [
+							{{subtable:DOS_vectors}}
+						]
+					},
+					"allowlist": { "use": "{{allowlist}}" },
+					"remark": "{{remark}}"
+				},

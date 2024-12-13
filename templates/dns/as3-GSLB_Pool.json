@@ -1,0 +1,22 @@
+				"{{Class:GSLB_Pool}}": {
+					"class": "GSLB_Pool",
+					"enabled": true,
+					"lbModePreferred": "{{lbModePreferred}}",
+					"lbModeAlternate": "{{lbModeAlternate}}",
+					"lbModeFallback": "{{lbModeFallback}}",
+					"manualResumeEnabled": false,
+					"verifyMemberEnabled": true,
+					"remark": "{{remark}}",
+					"members": [
+						{{subtable:GSLB_Pool_members}}
+					],
+					"bpsLimit": 0,
+					"bpsLimitEnabled": false,
+					"ppsLimit": 0,
+					"ppsLimitEnabled": false,
+					"connectionsLimit": 0,
+					"connectionsLimitEnabled": false,
+					"maxAnswersReturned": 1,
+					"resourceRecordType": "{{resourceRecordType}}",
+					"ttl": {{ttl}}
+				},

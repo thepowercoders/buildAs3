@@ -1,0 +1,28 @@
+				"{{Class:Service_HTTP}}": {
+					"class": "Service_HTTP",
+					"virtualAddresses": [
+						"{{virtualAddresses}}"
+						],
+					"shareAddresses": {{shareAddresses}},
+					"profileHTTP": { "{{profileHTTP_use}}": "{{profileHTTP}}" },
+					"profileTrafficLog": { "bigip": "{{profileTrafficLog}}" },
+					"pool": "{{pool}}",
+					"persistenceMethods": [],
+					"iRules": [
+						"{{multi:iRules}}"
+					],
+					"remark": "{{remark}}",
+					"addressStatus": true,
+					"allowVlans": [
+						"{{allowVlans}}"
+						],
+					"virtualPort": {{virtualPort}},
+					"snat": "{{snat}}",
+					"clientTLS": "{{clientTLS}}",
+					"policyFirewallStaged": { "use": "{{policyFirewallStaged}}" },
+					"policyFirewallEnforced": { "use": "{{policyFirewallEnforced}}" },
+					"policyWAF": { "use": "{{policyWAF}}" },
+					"profileDOS": { "use": "{{profileDOS}}" },
+					"profileProtocolInspection": { "use": "{{profileProtocolInspection}}" },
+					"securityLogProfiles":  [{ "bigip": "{{securityLogProfiles}}" }]
+				}

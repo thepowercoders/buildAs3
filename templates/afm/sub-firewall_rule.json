@@ -1,0 +1,25 @@
+                    {
+                        "name": "{{name}}",
+                        "remark": "{{remark}}",
+                        "protocol": "{{protocol}}",
+                        "source": {
+                            "vlans": [ "{{source_vlan}}" ],
+                            "portLists": [ 
+                                { "use": "{{multi:source_portlist}}" }
+                             ],
+                            "addressLists": [
+                                { "use": "{{multi:source_addresslist}}" }
+                            ]
+                        },
+                        "destination": {
+                            "portLists": [ 
+                                { "use": "{{multi:dest_portlist}}" }
+                             ],
+                            "addressLists": [
+                                { "use": "{{multi:dest_addresslist}}" }
+                            ]
+                        },
+                        "iRule": { "use": "{{iRule}}" },
+                        "action": "{{action}}",
+                        "loggingEnabled": {{log}}
+                    },

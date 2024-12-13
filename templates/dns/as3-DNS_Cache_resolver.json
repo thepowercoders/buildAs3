@@ -1,0 +1,10 @@
+				"{{Class:DNS_Cache}}": {
+					"class": "DNS_Cache",
+					"type": "{{type}}",
+					"forwardZones": {
+						{{subtable:DNS_Cache_forwardZones}}
+					},
+					"localZones": {
+						{{subtable:DNS_Cache_localZones}}
+					}
+				},
