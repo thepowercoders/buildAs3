@@ -1,20 +1,21 @@
 #-------------------------------------------------------------------------------------------------------------------
-#   Script:     buildAs3v2p.ps1 - V2 for ADO Pipelines (uses partitions in data folder structure)
+#   Script:     buildAs3.ps1 - V3 for CI/CD Pipelines (uses Azure tenants/BIG-IP tenants (partitions) in data folder structure)
 #   Author:     Antony Millington
 #   Comments:
 #       Creates F5 BIG-IP AS3 API json declarations for a given device and partition.
-#       Mandatory Parameters:   either: -Device (name of device) ;or
-#                               -DeviceGroup (a group of devices you want to build configs for) ;and 
-#                               -Partition (the tenant which AS3 config will be built for)
-#       Optional Parameters:    -Detail (which just provides more output on what the script is processing).
-#                               -NoGSLBPool (prevents adding GSLB pool config to declaration. Needed when loading /Common config for the
-#                               first time as the referenced virtual servers may not be yet built).
-#                               -IncludeSchema (this includes the '$schema' property set to the latest AS3 schema. Only include this when you
-#                               want to validate the declaration in the VSC editor. When deploying, this property is not stored in the running
-#                               declaration causing Terraform to believe a change is needed to 're-add' it).
+#       Mandatory Parameters:   
+#                       either: -Device        = The name of the device (as given in ./devicelist.json).
+#                       or:     -DeviceGroup   = A group of devices you want to build configs for ;and 
+#                               -Partition     = The tenant (BIG-IP partition) which AS3 config will be built for.
+#       Optional Parameters:    -Detail        = Provides more output on what the script is processing.
+#                               -NoGSLBPool    = Prevents adding GSLB pool config to declaration. Needed when loading /Common config for the
+#                                                first time as the referenced virtual servers may not be yet built.
+#                               -IncludeSchema = this includes the '$schema' property set to the latest AS3 schema. Only include this when you
+#                                                want to validate the declaration in the VSC editor. When deploying, this property is not stored
+#                                                in the running declaration causing Terraform to believe a change is needed to 're-add' it.
 #
 #       The script needs the following files:
-#           1. A csv file in the /data/<partition>/ folder for each API Class. The header of the file needs to be the
+#           1. A csv file in the /data/<azureTenant>/<partition>/ folder for each API Class. The header of the file needs to be the
 #              replaceable parameter names which are in the templates. The csv file can be in a further subfolder for each bigip
 #              resource e.g. ltm, dns, afm etc..
 #           2. A parameterized template file for each API Class in /templates. Again, these can be in a subfolder based on the
@@ -22,8 +23,8 @@
 #           3. All referenced certificates needs to be in: /data/<partition>/certificates, irules in: /data/<partition>/irules,
 #               dns zones in: /data/<partition>/dns-zone,
 #              external monitor scripts in: /data/<partition>/external-monitors, and WAF declarations in: /data/<partition>/asm
-#           4. A json file 'devicelist.json' which contains all valid devices, which group they belong to, and the list
-#              of AS3 API classes which need to be added for the specific device name.
+#           4. A json file 'devicelist.json' which contains all valid devices, which Azure Tenant they are in, which group they belong to,
+#              and the list of AS3 API classes which need to be added for the specific device name.
 #-------------------------------------------------------------------------------------------------------------------
 param(
     [Parameter(Mandatory=$false)][string]$Device,
@@ -372,13 +373,13 @@ function createConfigSnippit([string]$Device, [string]$APIClass, [object]$GroupI
     }
 }
 
-function as3Declaration([string]$Device, [string]$Partition)
+function as3Declaration([string]$AzTenant, [string]$Device, [string]$Partition)
 # builds a complete declaration using all the snippets created for each partition.
 {
-    $as3OutputFile="$declareDir\$Device\$Device.as3.$Partition" + ".json"
+    $as3OutputFile="$declareDir\$AzTenant\$Device\$Device.as3.$Partition" + ".json"
     # The declaration folder needs a subfolder per device, create if it doesn't exist...
-    if(!(Test-Path -Path "$declareDir\$Device")){
-        New-Item -ItemType Directory -path "$declareDir\$Device" -Force | Out-Null 
+    if(!(Test-Path -Path "$declareDir\$AzTenant\$Device")){
+        New-Item -ItemType Directory -path "$declareDir\$AzTenant\$Device" -Force | Out-Null 
     }else{
         # delete all previous declaration files for same device/partition to clean up from any previous runs
         Remove-Item $as3OutputFile -Force -ErrorAction SilentlyContinue
@@ -498,8 +499,8 @@ ForEach($bigip in $deviceList) {
         createConfigSnippit -Device $bigip -APIClass $APIClass -GroupIDs $deviceGroupOwnership
     }
 
-    Write-Host "++ Creating AS3 Declaration for Device: $bigip in Azure Tenant: $deviceAzureTenant for Partition: $Partition" -ForegroundColor Blue
-    as3Declaration -Device $bigip -Partition $Partition
+    Write-Host ("++ Creating AS3 Declaration for Device: **$bigip** in Azure Tenant: **$deviceAzureTenant** for Partition: **$Partition**"  | ConvertFrom-MarkDown -AsVt100EncodedString).VT100EncodedString
+    as3Declaration -Device $bigip -Partition $Partition -AzTenant $deviceAzureTenant
     
     # delete all created snippet files now we have valid declaration files
     $dirPath=(Get-Item $PSCommandPath ).DirectoryName

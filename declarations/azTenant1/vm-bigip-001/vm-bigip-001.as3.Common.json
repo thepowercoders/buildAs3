@@ -1,0 +1,138 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.45.0",
+        "remark": "ID:1409130442 BR:main Par:Common",
+        "Common": {
+            "class": "Tenant",
+            "remark": "ID:1409130442 BR:main DATE:13-12-24_09:42",
+            "Shared": {
+                "class": "Application",
+                "template": "shared",
+                "irule-telemetryLocalRule": {
+                    "class": "iRule",
+                    "remark": "Telemetry Streaming",
+                    "iRule": {
+                        "base64": "d2hlbiBDTElFTlRfQUNDRVBURUQgcHJpb3JpdHkgNTAwIHsNCiAgbm9kZSAxMjcuMC4wLjEgNjUxNA0KfQ=="
+                    }
+				},
+                "irule-telemetryDnsReqLog": {
+                    "class": "iRule",
+                    "remark": "LTM Request Logging",
+                    "iRule": {
+                        "base64": "d2hlbiBETlNfUkVRVUVTVCBwcmlvcml0eSA1MDAgew0KICAgIHNldCBob3N0bmFtZSBbaW5mbyBob3N0bmFtZV0NCiAgICBzZXQgbGRucyBbSVA6OmNsaWVudF9hZGRyXQ0KICAgIHNldCB2c19uYW1lIFt2aXJ0dWFsIG5hbWVdDQogICAgc2V0IHFfbmFtZSBbRE5TOjpxdWVzdGlvbiBuYW1lXQ0KICAgIHNldCBxX3R5cGUgW0ROUzo6cXVlc3Rpb24gdHlwZV0NCiAgICBzZXQgbm93IFtjbG9jayBzZWNvbmRzXQ0KICAgIHNldCB0cyBbY2xvY2sgZm9ybWF0ICRub3cgLWZvcm1hdCB7JWEsICVkICViICVZICVIOiVNOiVTICVafV0NCiAgICBpZiB7ICRxX3R5cGUgPT0gIkEiIH0gew0KICAgICAgICBzZXQgaHNsX3JlcWxvZyBbSFNMOjpvcGVuIC1wcm90byBUQ1AgLXBvb2wgIi9Db21tb24vU2hhcmVkL3Bvb2wtdGVsZW1ldHJ5Il0NCiAgICAgICAgSFNMOjpzZW5kICRoc2xfcmVxbG9nICJldmVudF9zb3VyY2U9XCJkbnNfcmVxdWVzdF9sb2dnaW5nXCIsaG9zdG5hbWU9XCIkaG9zdG5hbWVcIixjbGllbnRfaXA9XCIkbGRuc1wiLHNlcnZlcl9pcD1cIlwiLGh0dHBfbWV0aG9kPVwiXCIsaHR0cF91cmk9XCJcIix2aXJ0dWFsX25hbWU9XCIkdnNfbmFtZVwiLGRuc19xdWVyeV9uYW1lPVwiJHFfbmFtZVwiLGRuc19xdWVyeV90eXBlPVwiJHFfdHlwZVwiLGRuc19xdWVyeV9hbnN3ZXI9XCJcIixldmVudF90aW1lc3RhbXA9XCIkdHNcIlxuIg0KICAgICAgICB1bnNldCAtLSAiaHNsX3JlcWxvZyINCiAgICB9DQogICAgdW5zZXQgLS0gImxkbnMiDQogICAgdW5zZXQgLS0gInZzX25hbWUiDQogICAgdW5zZXQgLS0gInFfbmFtZSINCiAgICB1bnNldCAtLSAicV90eXBlIg0KICAgIHVuc2V0IC0tICJub3ciDQogICAgdW5zZXQgLS0gInRzIg0KICAgfQ0KDQogICB3aGVuIEROU19SRVNQT05TRSBwcmlvcml0eSA1MDEgew0KICAgIA0KICAgIHNldCBob3N0bmFtZSBbaW5mbyBob3N0bmFtZV0NCiAgICBzZXQgbGRucyBbSVA6OmNsaWVudF9hZGRyXQ0KICAgIHNldCB2c19uYW1lIFt2aXJ0dWFsIG5hbWVdDQogICAgc2V0IHFfbmFtZSBbRE5TOjpxdWVzdGlvbiBuYW1lXQ0KICAgIHNldCBxX3R5cGUgW0ROUzo6cXVlc3Rpb24gdHlwZV0NCiAgICBzZXQgcV9hbnN3ZXIgW0ROUzo6YW5zd2VyXQ0KICAgIHNldCBub3cgW2Nsb2NrIHNlY29uZHNdDQogICAgc2V0IHRzIFtjbG9jayBmb3JtYXQgJG5vdyAtZm9ybWF0IHslYSwgJWQgJWIgJVkgJUg6JU06JVMgJVp9XQ0KICAgIA0KICAgIGlmIHsgJHFfdHlwZSA9PSAiQSIgfSB7DQogICAgICAgIHNldCBoc2xfcmVzbG9nIFtIU0w6Om9wZW4gLXByb3RvIFRDUCAtcG9vbCAiL0NvbW1vbi9TaGFyZWQvcG9vbC10ZWxlbWV0cnkiXQ0KICAgICAgICBIU0w6OnNlbmQgJGhzbF9yZXNsb2cgImV2ZW50X3NvdXJjZT1cImRuc19yZXNwb25zZV9sb2dnaW5nXCIsaG9zdG5hbWU9XCIkaG9zdG5hbWVcIixjbGllbnRfaXA9XCIkbGRuc1wiLHNlcnZlcl9pcD1cIlwiLGh0dHBfbWV0aG9kPVwiXCIsaHR0cF91cmk9XCJcIix2aXJ0dWFsX25hbWU9XCIkdnNfbmFtZVwiLGRuc19xdWVyeV9uYW1lPVwiJHFfbmFtZVwiLGRuc19xdWVyeV90eXBlPVwiJHFfdHlwZVwiLGRuc19xdWVyeV9hbnN3ZXI9XCIkcV9hbnN3ZXJcIixldmVudF90aW1lc3RhbXA9XCIkdHNcIlxuIg0KICAgICAgICB1bnNldCAtLSAiaHNsX3Jlc2xvZyINCiAgICB9DQogICAgDQogICAgdW5zZXQgLS0gImxkbnMiDQogICAgdW5zZXQgLS0gInZzX25hbWUiDQogICAgdW5zZXQgLS0gInFfbmFtZSINCiAgICB1bnNldCAtLSAicV90eXBlIg0KICAgIHVuc2V0IC0tICJxX2Fuc3dlciINCiAgICB1bnNldCAtLSAibm93Ig0KICAgIHVuc2V0IC0tICJ0cyINCiAgIH0NCg=="
+                    }
+                },
+                "logDestination-telemetryHsl": {
+                    "class": "Log_Destination",
+                    "type": "remote-high-speed-log",
+                    "protocol": "tcp",
+                    "pool": {
+                        "use": "pool-telemetry"
+                    }
+                },
+                "logDestination-telemetry": {
+                    "class": "Log_Destination",
+                    "type": "splunk",
+                    "forwardTo": {
+                        "use": "logDestination-telemetryHsl"
+                    }
+                },
+                "logPublisher-telemetry": {
+                    "class": "Log_Publisher",
+                    "destinations": [
+                        {
+                            "use": "logDestination-telemetry"
+                        }
+                    ]
+                },
+				"pool-telemetry": {
+					"class": "Pool",
+					"remark": "Telemetry Streaming to Azure Sentinel",
+					"monitors": [
+					],
+					"members": [
+						{
+							"serverAddresses": [
+								"255.255.255.254"
+							],
+							"adminState": "enable",
+							"servicePort": 6514
+						}
+					]
+                },
+                "security-loggingProfile": {
+                    "class": "Security_Log_Profile",
+                    "application": {
+                        "localStorage": false,
+                        "remoteStorage": "splunk",
+                        "protocol": "tcp",
+                        "servers": [
+                            {
+                                "address": "127.0.0.1",
+                                "port": "6514"
+                            }
+                        ],
+                        "storageFilter": {
+                            "requestType": "all"
+                        }
+                    },
+                    "network": {
+                        "publisher": {
+                            "use": "logPublisher-telemetry"
+                        },
+                        "logRuleMatchAccepts": false,
+                        "logRuleMatchRejects": true,
+                        "logRuleMatchDrops": true,
+                        "logIpErrors": true,
+                        "logTcpErrors": true,
+                        "logTcpEvents": true
+                    },
+                    "dosApplication": {
+                        "remotePublisher": {
+                            "use": "logPublisher-telemetry"
+                        }
+                    },
+                    "dosNetwork": {
+                        "publisher": {
+                            "use": "logPublisher-telemetry"
+                        }
+                    },
+                    "protocolDnsDos": {
+                        "publisher": {
+                            "use": "logPublisher-telemetry"
+                        }
+                    },
+                    "protocolInspection": {
+                        "publisher": {
+                            "use": "logPublisher-telemetry"
+                        },
+                        "logPacketPayloadEnabled": true
+                    }
+                },
+                "profile-ltmRequestLog": {
+                    "class": "Traffic_Log_Profile",
+                    "requestSettings": {
+                        "requestEnabled": true,
+                        "requestProtocol": "mds-tcp",
+                        "requestPool": {
+                            "use": "pool-telemetry"
+                        },
+                        "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",dest_ip=\"$VIRTUAL_IP\",dest_port=\"$VIRTUAL_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",Microtimestamp=\"$TIME_USECS\""
+                    },
+                    "responseSettings": {
+                        "responseEnabled": true,
+                        "responseProtocol": "mds-tcp",
+                        "responsePool": {
+                            "use": "pool-telemetry"
+                        },
+                        "responseTemplate": "event_source=\"response_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",http_statcode=\"$HTTP_STATCODE\",http_status=\"$HTTP_STATUS\",Microtimestamp=\"$TIME_USECS\",response_ms=\"$RESPONSE_MSECS\""
+                    }
+                }
+            }
+        }
+    }
+}

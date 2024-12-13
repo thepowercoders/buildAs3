@@ -1,6 +1,6 @@
 {
-	"vm-test-dev-uks-bigip-001" : {
-		"azureTenant": "azure_tenant_1",
+	"vm-bigip-001" : {
+		"azureTenant": "azTenant1",
 		"deviceGroup": [
 			"test-bigip"
 		],
