@@ -61,7 +61,9 @@ Write-Host "Generating Wiki.`nRepo Path is: $gitRepoPath, Build Directory (AS3 P
 function printHeaderText
 {
     $dateNow = Get-Date -UFormat '%b %d %H:%M:%S'
-    Write-Output "> :memo: **Note:** This wiki was generated using [as3Markdown.ps1]($gitRepoPath/as3Markdown.ps1) based on the AS3 configuration files on $dateNow.`n[[_TOC_]]`n`n"
+    Write-Output "> :memo: **Note:** This wiki was generated using [as3Markdown.ps1]($gitRepoPath/as3Markdown.ps1) based on the AS3 configuration files on $dateNow.`n"
+    # ADO uses the 'TOC' keyboard to write a table of contents, github autogenerates one.
+    if($OutputADO){Write-Output "[[_TOC_]]`n`n"}
     $DeviceData=(Get-Content -Path $deviceList | ConvertFrom-Json)
     $devices=$DeviceData | Get-member -MemberType 'NoteProperty' | Select-Object -ExpandProperty 'Name'
     Write-Host "getting declaration information..."
