@@ -1,41 +1,67 @@
 #-------------------------------------------------------------------------------------------------------------------
-#   Script:     as3LLDWikiGenerator.ps1
+#   Script:     as3Markdown.ps1
 #   Author:     Antony Millington
 #   Date:       July 2023
 #   Version:    6.0 (April 2024)
 #   Comments:
-#       Creates WIKI style tables from the same data used to generate config which can be added to the WIKI LLD.
-#       Also provides data file links*, links to the config on F5 clouddocs, and a copy of the template file used*.
+#       Creates a markdown document from the same data used to generate AS3 config which can be added to a WIKI.
+#       Also provides data file links*, links to the relevant API Schema Reference on F5 clouddocs, and a copy of the template file used*.
 #       v4 Also prints data from subtables, dns zonefiles, and creates hyperlinks to certificates, irules, and WAF policy declarations.
 #
 #       * for this to work, you need to specify the path to the repo where build-as3 is running.
 #
 #       Optional Parameters:    -NoDeviceList : do not include the intial table showing the list of devices referenced in the
-#                                data files and used to generate the table data.
+#                                               data files and used to generate the table data.
+#                               -GitType      : either 'github' (default) or 'ado' for Azure DevOps.
 #-------------------------------------------------------------------------------------------------------------------
 param(
-    [Parameter(Mandatory=$true)][string]$Organisation,
-    [Parameter(Mandatory=$true)][string]$Project,
+    [Parameter(ParameterSetName = 'github', Mandatory=$true, Position = 0)]
+    [switch]$OutputGithub,
+    [Parameter(ParameterSetName = 'ado', Mandatory=$true, Position = 0)]
+    [switch]$OutputADO,
+
+    [Parameter(ParameterSetName = 'github', Mandatory=$true, Position = 1)]
+    [string]$GitHubUsername,
+    [Parameter(ParameterSetName = 'ado', Mandatory=$true, Position = 1)]
+    [string]$Organisation,
+    [Parameter(ParameterSetName = 'ado', Mandatory=$true, Position = 2)]
+    [string]$Project,
+
     [Parameter(Mandatory=$true)][string]$Repo,
+    [Parameter(Mandatory=$true)][string]$AzTenant,
     [Parameter()][switch]$NoDeviceList
+
 ) #end param
 
 $dirPath=(Get-Item $PSCommandPath ).DirectoryName
-$dataDir="$dirPath\data"
+$dataDir="$dirPath\data\$AzTenant"
+# check the Azure Tenant data directory exists:
+if (Test-Path -Path $dataDir -PathType Container) {
+    Write-Output "Data directory set to Azure Tenant: $AzTenant"
+} else {
+    Write-Error "The data directory for the given Azure Tenant: $AzTenant does not exist."
+    Exit 1
+}
 $templateDir="$dirPath\templates"
-$declareDir="$dirPath\declarations"
+$declareDir="$dirPath\declarations\$AzTenant"
 $deviceList="$dirPath\devicelist.json"
 
-# add the path to the repo where build-as3 is. The 'https' prefix is not needed
-$repoPath="dev.azure.com/$Organisation/$Project/_git/$Repo"
 # Get current directory name (this will be the as3 partition name)
 $buildDirectory = Split-Path -Path $dirPath -Leaf
-Write-Host "Generating Wiki.`nRepo Path is: $repoPath, Build Directory (AS3 Partition) is: $buildDirectory"
+
+if($OutputGithub){
+    Write-Host "`nGit Type set to : Github"
+    $gitRepoPath="https://github.com/$GitHubUsername/$Repo/blob/main"
+}elseif($OutputADO){
+    Write-Host "`nGit Type set to : Azure DevOps"
+    $gitRepoPath="https://dev.azure.com/$Organisation/$Project/_git/$Repo?path=/$($buildDirectory)"
+}
+Write-Host "Generating Wiki.`nRepo Path is: $gitRepoPath, Build Directory (AS3 Partition) is: $buildDirectory"
 
 function printHeaderText
 {
     $dateNow = Get-Date -UFormat '%b %d %H:%M:%S'
-    Write-Output "> :memo: **Note:** This wiki was generated using [as3LLDWikiGenerator.ps1](https://$($repoPath)?path=/$($buildDirectory)/as3LLDWikiGenerator.ps1) based on the AS3 configuration files on $dateNow.`n[[_TOC_]]`n`n"
+    Write-Output "> :memo: **Note:** This wiki was generated using [as3Markdown.ps1]($gitRepoPath/as3Markdown.ps1) based on the AS3 configuration files on $dateNow.`n[[_TOC_]]`n`n"
     $DeviceData=(Get-Content -Path $deviceList | ConvertFrom-Json)
     $devices=$DeviceData | Get-member -MemberType 'NoteProperty' | Select-Object -ExpandProperty 'Name'
     Write-Host "getting declaration information..."
@@ -88,7 +114,7 @@ function GetDnsZoneData{
     Write-Host "        creating dns zone content from: $dnsZoneFile"
     foreach($zone in $matchedValues){
         Write-Output "`n### $DNS Zone File: $zone`n"
-        Write-Output "Data File Location: https://$($repoPath)?path=/$($buildDirectory)/data/$Partition/dns-zone/$zone`n"
+        Write-Output "Data File Location: $gitRepoPath/data/$Partition/dns-zone/$zone`n"
         Write-Output '```'
         Get-Content $dataDir\dns-zone\$zone
         Write-Output '```'
@@ -113,12 +139,12 @@ function GetSubTableData([array]$Subtables) {
                 Write-Output "### $apiRef Template`n"
                 $TemplateFile=$subtableDataFile -replace '\.csv$','.json'
                 $FileToUri=$TemplateFile.Replace('\','/')
-                Write-Output "Template File Location: https://$($repoPath)?path=/$($buildDirectory)/templates/$FileToUri.json`n"
+                Write-Output "Template File Location: $gitRepoPath/templates/$FileToUri.json`n"
                 Write-Output '```json'
                 Get-Content $templateDir\$TemplateFile
                 Write-Output '```'"`n### $apiRef Data`n"
                 $FileToUri=$subtableDataFile.Replace('\','/')
-                Write-Output "Data File Location: https://$($repoPath)?path=/$($buildDirectory)/data/$Partition/$FileToUri`n"
+                Write-Output "Data File Location: $gitRepoPath/data/$Partition/$FileToUri`n"
                 $subHeaderString = ""
                 foreach($subHeader in $subHeaders) {
                     $subHeaderString = $subHeaderString + $subHeader.Name + "|"
@@ -151,21 +177,24 @@ function GetClassData([string]$Partition)  {
         if($entries -eq 0){
             Write-Host "$classFile contains no data."
         }else{
+            Write-Debug "classFile=$classFile"
             Write-Host "creating content from: $classFile"
             $headers = ($dataFile[0].psobject.properties | Select-Object 'Name')
             $apiRef=$headers[2].Name.Split(":")[1].Replace("_","-")
             $apiToUri=$apiRef.ToLower()
+            Write-Debug "apiToUri=$apiToUri"
             Write-Output "`n## Class: $apiRef`n"
             Write-Output "API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#$apiToUri`n"
             $APIClass = $classFile.Split(".")[0]
             Write-Output "### $apiRef Template`n"
             $FileToUri=$APIClass.Replace('\','/')
-            Write-Output "Template File Location: https://$($repoPath)?path=/$($buildDirectory)/templates/$FileToUri.json`n"
+            Write-Debug "FileToUri=$FileToUri"
+            Write-Output "Template File Location: $gitRepoPath/templates/$FileToUri.json`n"
             Write-Output '```json'
             Get-Content $templateDir\$APIClass.json
             Write-Output '```'"`n### $apiRef Data`n"
             $FileToUri=$classFile.Replace('\','/')
-            Write-Output "Data File Location: https://$($repoPath)?path=/$($buildDirectory)/data/$Partition/$FileToUri`n"
+            Write-Output "Data File Location: $gitRepoPath/data/$Partition/$FileToUri`n"
             $headerString = ""
             $hlinkPosArray = @()
             $subtableArray = @()
@@ -203,7 +232,7 @@ function GetClassData([string]$Partition)  {
                     $splitLine = $line -split '\|'
                     foreach ($hlinkPos in $hlinkPosArray){
                         $hlink=$splitLine[$hlinkPos]
-                        if($hlink -notmatch "not used") {$splitLine[$hlinkPos] = "[$hlink](https://$($repoPath)?path=/$($buildDirectory)/data/$Partition/$fileLoc/$hlink)"}
+                        if($hlink -notmatch "not used") {$splitLine[$hlinkPos] = "[$hlink]($gitRepoPath/data/$Partition/$fileLoc/$hlink)"}
                     }
                     $splitLine -join '|'
                 }
@@ -220,8 +249,7 @@ function GetClassData([string]$Partition)  {
     }
 }
 
-
-$outFile="$dirPath\lld_wiki_as3.md"
+$outFile="$dirPath\$($AzTenant)_as3.md"
 printHeaderText | Out-File $outFile
 $PartitionList=Get-ChildItem -Name $dataDir
 foreach ($Prt in $PartitionList){
