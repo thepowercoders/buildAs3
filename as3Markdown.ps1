@@ -114,7 +114,7 @@ function GetDnsZoneData{
     Write-Host "        creating dns zone content from: $dnsZoneFile"
     foreach($zone in $matchedValues){
         Write-Output "`n### $DNS Zone File: $zone`n"
-        Write-Output "Data File Location: $gitRepoPath/data/$Partition/dns-zone/$zone`n"
+        Write-Output "Data File Location: $gitRepoPath/data/$AzTenant/$Partition/dns-zone/$zone`n"
         Write-Output '```'
         Get-Content $dataDir\dns-zone\$zone
         Write-Output '```'
@@ -144,7 +144,7 @@ function GetSubTableData([array]$Subtables) {
                 Get-Content $templateDir\$TemplateFile
                 Write-Output '```'"`n### $apiRef Data`n"
                 $FileToUri=$subtableDataFile.Replace('\','/')
-                Write-Output "Data File Location: $gitRepoPath/data/$Partition/$FileToUri`n"
+                Write-Output "Data File Location: $gitRepoPath/data/$AzTenant/$Partition/$FileToUri`n"
                 $subHeaderString = ""
                 foreach($subHeader in $subHeaders) {
                     $subHeaderString = $subHeaderString + $subHeader.Name + "|"
@@ -194,7 +194,7 @@ function GetClassData([string]$Partition)  {
             Get-Content $templateDir\$APIClass.json
             Write-Output '```'"`n### $apiRef Data`n"
             $FileToUri=$classFile.Replace('\','/')
-            Write-Output "Data File Location: $gitRepoPath/data/$Partition/$FileToUri`n"
+            Write-Output "Data File Location: $gitRepoPath/data/$AzTenant/$Partition/$FileToUri`n"
             $headerString = ""
             $hlinkPosArray = @()
             $subtableArray = @()
@@ -232,7 +232,7 @@ function GetClassData([string]$Partition)  {
                     $splitLine = $line -split '\|'
                     foreach ($hlinkPos in $hlinkPosArray){
                         $hlink=$splitLine[$hlinkPos]
-                        if($hlink -notmatch "not used") {$splitLine[$hlinkPos] = "[$hlink]($gitRepoPath/data/$Partition/$fileLoc/$hlink)"}
+                        if($hlink -notmatch "not used") {$splitLine[$hlinkPos] = "[$hlink]($gitRepoPath/data/$AzTenant/$Partition/$fileLoc/$hlink)"}
                     }
                     $splitLine -join '|'
                 }
