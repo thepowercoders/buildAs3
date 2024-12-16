@@ -1,0 +1,47 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.45.0",
+        "remark": "ID:651577202 BR:main Par:Common",
+        "Common": {
+            "class": "Tenant",
+            "remark": "ID:651577202 BR:main DATE:16-12-24_08:32",
+            "Shared": {
+                "class": "Application",
+                "template": "shared",
+                "gslbDatacenter-azure": {
+                    "class": "GSLB_Data_Center",
+                    "enabled": true,
+                    "location": "UK",
+                    "remark": "Azure",
+                    "proberPreferred": "inside-datacenter",
+                    "proberFallback": "any-available"
+                },
+                "gslbServer-vm002": {
+                    "class": "GSLB_Server",
+                    "dataCenter": {
+                        "use": "gslb-datacenter"
+                    },
+                    "devices": [
+						{
+							"address": "192.168.1.5",
+							"remark": "vm-bigip-002"
+                      }
+                    ],
+                    "monitors": [
+                        {
+                            "bigip": "/Common/bigip"
+                        }
+                    ],
+                    "serverType": "bigip",
+                    "virtualServerDiscoveryMode": "enabled-no-delete",
+                    "virtualServers": [
+                    ]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,188 @@
+{
+    "class": "AS3",
+    "action": "deploy",
+    "persist": true,
+    "declaration": {
+        "class": "ADC",
+        "schemaVersion": "3.45.0",
+        "remark": "ID:1035055718 BR:main Par:as3Tenant1",
+        "as3Tenant1": {
+            "class": "Tenant",
+            "remark": "ID:1035055718 BR:main DATE:16-12-24_08:33",
+            "app001": {
+                "class": "Application",
+				"gslbWip-app001": {
+					"class": "GSLB_Domain",
+					"domainName": "app001.wip.test.com",
+					"resourceRecordType": "A",
+					"pools": [
+						{ "use": "gslbPool-app01" }
+					],
+					"poolLbMode": "global-availability"
+                },
+				"gslbPool-app01": {
+					"class": "GSLB_Pool",
+					"enabled": true,
+					"lbModePreferred": "ratio",
+					"lbModeAlternate": "global-availability",
+					"lbModeFallback": "none",
+					"manualResumeEnabled": false,
+					"verifyMemberEnabled": true,
+					"remark": "Example WIP for app01",
+					"members": [
+						{
+							"ratio": 50,
+							"server": {
+								"bigip": "/Common/gslbServer-vm002"
+							},
+							"virtualServer": "/as3Tenant1/app01/vs-vm002App01Server1"
+                      },
+						{
+							"ratio": 50,
+							"server": {
+								"bigip": "/Common/gslbServer-vm002"
+							},
+							"virtualServer": "/as3Tenant1/app01/vs-vm002App01Server2"
+                      }
+					],
+					"bpsLimit": 0,
+					"bpsLimitEnabled": false,
+					"ppsLimit": 0,
+					"ppsLimitEnabled": false,
+					"connectionsLimit": 0,
+					"connectionsLimitEnabled": false,
+					"maxAnswersReturned": 1,
+					"resourceRecordType": "A",
+					"ttl": 300
+                },
+				"monitor-app01": {
+					"class": "Monitor",
+					"monitorType": "https",
+					"remark": "app01 Health Monitor",
+					"clientTLS": { "use": "servertls-app01" },
+					"send": "GET / HTTP/1.1\r\nHost: app01.azure-api.net",
+					"receive": "200",
+					"interval": 20,
+					"timeUntilUp": 15,
+					"timeout": 61,
+					"targetPort": 443
+                },
+				"pool-app01Server1": {
+					"class": "Pool",
+					"remark": "App01 Server 1 Pool",
+					"monitors": [
+						{ "use": "monitor-app01"}
+					],
+					"members": [
+						{
+							"serverAddresses": [
+								"192.168.100.1",
+								"192.168.100.2"
+							],
+							"adminState": "enable",
+							"shareNodes": true,
+							"servicePort": 443
+						}
+					]
+				},
+				"pool-app01Server2": {
+					"class": "Pool",
+					"remark": "App01 Server 2 Pool",
+					"monitors": [
+						{ "use": "monitor-app01"}
+					],
+					"members": [
+						{
+							"serverAddresses": [
+								"192.168.200.1",
+								"192.168.200.2"
+							],
+							"adminState": "enable",
+							"shareNodes": true,
+							"servicePort": 443
+						}
+					]
+                },
+                "servertls-app01": {
+                    "class": "TLS_Client",
+                    "remark": "servertls-app01",
+					"allowExpiredCRL": false,
+                    "authenticationFrequency": "every-time",
+                    "dtlsEnabled": false,
+                    "dtls1_2Enabled": false,
+                    "clientCertificate": "cert-default",
+					"validateCertificate": true,
+                    "trustCA": { "bigip": "/Common/Shared/ssl.crt" }
+                },
+                "clienttls-app01": {
+                    "class": "TLS_Server",
+                    "authenticationMode": "require",
+                    "forwardProxyEnabled": false,
+                    "authenticationFrequency": "every-time",
+                    "remark": "clienttls-app01",
+                    "certificates": [
+                        {
+                            "certificate": "cert-default"
+                        }
+                    ],
+                    "authenticationTrustCA": {
+                        "bigip": "/Common/Shared/ca.crt"
+                    }
+                }
+            },
+            "app01": {
+                "class": "Application",
+				"vs-vm002App01Server1": {
+					"class": "Service_HTTPS",
+					"virtualAddresses": [
+						"192.168.10.1"
+						],
+					"shareAddresses": false,
+					"profileHTTP": {
+						"bigip": "http"
+					},
+					"pool": "pool-app01Server1",
+					"persistenceMethods": [],
+					"remark": "Pool App01 Server 1",
+					"addressStatus": true,
+					"allowVlans": [
+						"f5-untrusted-ipv4"
+						],
+					"iRules": [
+					],
+					"virtualPort": 443,
+					"redirect80": false,
+					"snat": "auto",
+					"serverTLS": "clienttls-app01",
+					"clientTLS": "servertls-app01",
+					"securityLogProfiles":  [{ "bigip": "/Common/Shared/sec-logprof-dccdm" }]
+				},
+				"vs-vm002App01Server2": {
+					"class": "Service_HTTPS",
+					"virtualAddresses": [
+						"192.168.20.1"
+						],
+					"shareAddresses": false,
+					"profileHTTP": {
+						"bigip": "http"
+					},
+					"pool": "pool-app01Server2",
+					"persistenceMethods": [],
+					"remark": "Pool App01 Server 2",
+					"addressStatus": true,
+					"allowVlans": [
+						"f5-untrusted-ipv4"
+						],
+					"iRules": [
+					],
+					"virtualPort": 443,
+					"redirect80": false,
+					"snat": "auto",
+					"serverTLS": "clienttls-app01",
+					"clientTLS": "servertls-app01",
+					"securityLogProfiles":  [{ "bigip": "/Common/Shared/sec-logprof-dccdm" }]
+                }
+            }
+        }
+    }
+}

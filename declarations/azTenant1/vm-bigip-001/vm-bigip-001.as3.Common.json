@@ -5,10 +5,10 @@
     "declaration": {
         "class": "ADC",
         "schemaVersion": "3.45.0",
-        "remark": "ID:1409130442 BR:main Par:Common",
+        "remark": "ID:665912775 BR:main Par:Common",
         "Common": {
             "class": "Tenant",
-            "remark": "ID:1409130442 BR:main DATE:13-12-24_09:42",
+            "remark": "ID:665912775 BR:main DATE:16-12-24_08:29",
             "Shared": {
                 "class": "Application",
                 "template": "shared",

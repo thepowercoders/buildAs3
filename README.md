@@ -1,7 +1,7 @@
-# F5 Build - buildAS3p.ps1
+# F5 Build - buildAs3.ps1
 ---
 ## Introduction
-The script buildAs3p.ps1 is used to create an F5 Application Services (AS3) declarative statement. This is a json formatted statement which can be used to configure an F5 as part of the Automation Toolchain.
+The script buildAs3.ps1 is used to create an F5 Application Services (AS3) declarative statement. This is a json formatted statement which can be used to configure an F5 as part of the Automation Toolchain.
 
 It is sent using the Terraform [F5Networks/bigip provider](https://registry.terraform.io/providers/F5Networks/bigip/latest/docs) - using the [bigip_as3](https://registry.terraform.io/providers/F5Networks/bigip/latest/docs/resources/bigip_as3) resource.
 
@@ -10,7 +10,7 @@ It is sent using the Terraform [F5Networks/bigip provider](https://registry.terr
 ### Path (Default)
 
 ``` powershell
-# buildAs3p.ps1
+# buildAs3.ps1
     {-Device <device-hostname> ;or
 	 -DeviceGroup <device-group-name>}
      -Partition <partition-name>
@@ -25,7 +25,7 @@ It is sent using the Terraform [F5Networks/bigip provider](https://registry.terr
 This example creates a declaration for the device `vm-bigip-001` and partition `appgw`.
 
 ```powershell
-buildAs3p.ps1 -Device vm-bigip-001 -Partition appgw
+buildAs3.ps1 -Device vm-bigip-001 -Partition appgw
 ```
 
 ### Example 2
@@ -33,7 +33,7 @@ buildAs3p.ps1 -Device vm-bigip-001 -Partition appgw
 This example creates a declaration for all devices in the group `bigip-group1` and partition `appgw`.
 
 ```powershell
-buildAs3p.ps1 -DeviceGroup bigip-group1 -Partition appgw
+buildAs3.ps1 -DeviceGroup bigip-group1 -Partition appgw
 ```
 
 ### Output
@@ -236,9 +236,9 @@ We now add our device and specify the AS3 classes we want to build for the devic
 }
 ```
 
-Once added, we can test using the buildAs3p command:
+Once added, we can test using the buildAs3 command:
 
-` ./buildAs3p.ps1 -Device my-bigip-001 -Partition Common`
+` ./buildAs3.ps1 -Device my-bigip-001 -Partition Common`
 
 
 **Example Output:**

@@ -472,11 +472,14 @@ function as3Declaration([string]$AzTenant, [string]$Device, [string]$Partition)
 if($DeviceGroup) {
     # If we've specified a device group for build, we need to expand the device list to allow multiple builds for all devices in that group:
     $deviceList = ((Get-Content $dirPath\devicelist.json | ConvertFrom-Json).PSObject.Properties | Where-Object {$_.Value.deviceGroup -eq "$DeviceGroup"}).Name
-    if(!$deviceList){ Write-Error -Category InvalidData -RecommendedAction "Check device group exists in .\devicelist.csv" "No such devices in device group." -ErrorAction Stop}
+    if(!$deviceList){ Write-Error -Category InvalidData -RecommendedAction "Check device group exists in .\devicelist.json" "No such devices in device group." -ErrorAction Stop}
     Write-Host "+ Device Group $DeviceGroup has the following devices: "$deviceList -ForegroundColor Blue
 }else{
     # the device list is just a single device
     $deviceList = $Device
+    Write-Debug "DEV"
+    $chkdev=(Get-Content $dirPath\devicelist.json | ConvertFrom-Json).PSObject.Properties.Name
+    if(!($chkdev | Where-Object {$_ -eq "$Device"})){ Write-Error -Category InvalidData "Device should be one of: $chkdev." -ErrorAction Stop}
 }
 
 ForEach($bigip in $deviceList) {

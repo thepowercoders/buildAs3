@@ -2,7 +2,7 @@
 	"vm-bigip-001" : {
 		"azureTenant": "azTenant1",
 		"deviceGroup": [
-			"test-bigip"
+			"bigip-group1"
 		],
 		"AS3ClassList": [
 			"profile_http",
@@ -19,6 +19,21 @@
 			"logging",
 			"Security_Log_Profile",
 			"Traffic_Log_Profile"
+		]
+	},
+	"vm-bigip-002" : {
+		"azureTenant": "azTenant2",
+		"AS3ClassList": [
+			"GSLB_Data_Center",
+			"GSLB_Server",
+			"GSLB_Domain",
+			"GSLB_Pool",
+
+			"pool_simple",
+			"monitor_https",
+			"tls_client",
+			"tls_server",
+			"service_HTTPS"
 		]
 	}
 }
