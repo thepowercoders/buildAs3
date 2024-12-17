@@ -23,18 +23,18 @@ It is sent using the Terraform [F5Networks/bigip provider](https://registry.terr
 
 ### Example 1
 
-This example creates a declaration for the device `vm-bigip-001` and partition `appgw`.
+This example creates a declaration for the device `vm-bigip-001` and partition `as3Tenant1`.
 
 ```powershell
-buildAs3.ps1 -Device vm-bigip-001 -Partition appgw
+buildAs3.ps1 -Device vm-bigip-001 -Partition as3Tenant1
 ```
 
 ### Example 2
 
-This example creates a declaration for all devices in the group `bigip-group1` and partition `appgw`.
+This example creates a declaration for all devices in the group `mybigip-group` and partition `Common`.
 
 ```powershell
-buildAs3.ps1 -DeviceGroup bigip-group1 -Partition appgw
+buildAs3.ps1 -DeviceGroup mybigip-group -Partition Common
 ```
 
 ### Output
@@ -42,29 +42,29 @@ buildAs3.ps1 -DeviceGroup bigip-group1 -Partition appgw
 The script outputs it's progress and any errors to standard output (screen). 
 
 ```
-+ Creating AS3 Config Snippits for Device: vm-bigip-001
+$ .\buildAs3.ps1 -Device vm-bigip-001 -Partition Common
 
-Loading Data from: F5-AS3-Config\build\data\ltm\as3-service_HTTPS.csv against template: F5-AS3-Config\build\templates\ltm\as3-service_HTTPS.json
-Creating snippets for Partition:appgw  Class:service_HTTPS
++ Creating AS3 Config Snippits for Device: vm-bigip-001 in Azure Tenant: azTenant1
+
+Loading Data from: .\data\Common\dns\as3-GSLB_Data_Center.csv against template: .\templates\dns\as3-GSLB_Data_Center.json
+Creating snippets for Class:GSLB_Data_Center
 Done.
 
-Loading Data from: F5-AS3-Config\build\data\as3-service_TCP.csv against template: F5-AS3-Config\build\templates\as3-service_TCP.json
-Creating snippets for Partition:appgw  Class:service_TCP
+Loading Data from: .\data\Common\dns\as3-GSLB_Server.csv against template: .\templates\dns\as3-GSLB_Server.json
+Creating snippets for Class:GSLB_Server
+Creating snippets for subtable:GSLB_Server_Device  Value:dc1
+Creating snippets for subtable:GSLB_Server_vips  Value:bigip-001-vips
 Done.
 
 <output continues for all classes...>
 
- ++ Creating AS3 Declaration for Partition: appgw
-   Collating config snippets for Application: app01
-      adding : vm-bigip-001.as3.appgw.app01.pool_complex.json
-      adding : vm-bigip-001.as3.appgw.app01.service_HTTPS.json
-   Collating config snippets for Application: Shared
-      adding : vm-bigip-001.as3.appgw.Shared.addressdiscovery_azure.json
-      adding : vm-bigip-001.as3.appgw.Shared.addressdiscovery_static.json
-      adding : vm-bigip-001.as3.appgw.Shared.profile_http.json
-Done.
-AS3 Declaration is in: F5-AS3-Config\build\declarations\vm-bigip-001.as3.appgw.json
+++ Creating AS3 Declaration for Device: vm-bigip-001 in Azure Tenant: azTenant1 for Partition: Common
 
+   Collating config snippets for Application: Shared
+      adding : vm-bigip-001.as3.Common.Shared.GSLB_Data_Center.json
+      adding : vm-bigip-001.as3.Common.Shared.GSLB_Server.json
+Done.
+AS3 Declaration output to: .\buildAs3\declarations\azTenant1\vm-bigip-001\vm-bigip-001.as3.Common.json
 ```
 
 ## PARAMETERS
@@ -117,7 +117,7 @@ Each device object needs the following properties :
 ```
 {
 	"vm-bigip-001" : {
-		"deviceGroup": "bigip-group1",
+		"deviceGroup": "mybigip-group",
 		"AS3ClassList": [
 			"GSLB_Data_Center",
 			"GSLB_Server"
@@ -178,14 +178,16 @@ Firstly we get the example of the JSON used to create the Pool. There are many e
 
 Here is our example code. In an AS3 declaration the classes are tabulated 4 indents out so try and replicate this in the template file - it creates a neater looking declaration:
 ```json
-				"my-app01-pool-001": {
+				"pool-app01Server1": {
 					"class": "Pool",
-					"remark": "Pool 001 for App01",
+					"remark": "App01 Server 1 Pool",
 					"members": [
 						{
 							"serverAddresses": [
-								"192.168.1.10"
+								"192.168.100.1",
 							],
+							"adminState": "enable",
+							"shareNodes": true,
 							"servicePort": 443
 						}
 					]
@@ -201,6 +203,8 @@ Now we go through the snippet and parameterize all the values which may change d
 							"serverAddresses": [
 								"{{serverAddresses}}"
 							],
+							"adminState": "enabled",
+							"shareNodes": {{shareNodes}},
 							"servicePort": {{servicePort}}
 						}
 					]
@@ -215,14 +219,13 @@ Now we go through the snippet and parameterize all the values which may change d
 ### *Create Data File*
 
 We now create a data file which contains all the devices which need configuring with the pool. For this simple example, we'll build in the `\Common` partition, so the
-file will go into the `\data\Common\pool` folder.
+file will go into the `\data\azTenant1\Common\pool` folder.
 
 As all AS3 config also needs to be assigned to an application, we add this to the data file, then add the `Class:Pool` field which holds our class object name, and finally the replaceable parameters are provided as per the original example code:
 
 ```
-device,application,Class:Pool,remark,serverAddresses,servicePort
-my-bigip-001,Shared,my-app01-pool-001,Pool 001 for App01,192.168.1.10,443
-
+device,application,Class:Pool,remark,serverAddresses,servicePort,shareNodes
+vm-bigip-001,Shared,pool-app01Server1,App01 Server 1 Pool,192.168.100.1,443,true
 ```
 
 > Remember: If you are using the `\Common` partition, you can only have a single application, named: `Shared`.
@@ -233,8 +236,8 @@ We now add our device and specify the AS3 classes we want to build for the devic
 
 ```
 {
-	"my-bigip-001" : {
-		"deviceGroup": "1",
+	"vm-bigip-001" : {
+		"azureTenant": "azTenant1",
 		"AS3ClassList": [
 			"pool"
 		]
@@ -244,21 +247,20 @@ We now add our device and specify the AS3 classes we want to build for the devic
 
 Once added, we can test using the buildAs3 command:
 
-` ./buildAs3.ps1 -Device my-bigip-001 -Partition Common`
-
+` ./buildAs3.ps1 -Device vm-bigip-001 -Partition Common`
 
 **Example Output:**
 ```bash
-+ Creating AS3 Config Snippits for LTM Device: my-bigip-001
-Loading Data from: \F5-AS3-Config\build\data\Common\ltm\as3-pool.csv against template: \F5-AS3-Config\build\templates\ltm\as3-pool.json
-Creating snippets for Partition:mypartition  Class:pool
++ Creating AS3 Config Snippits for LTM Device: vm-bigip-001 in Azure Tenant: azTenant1
+Loading Data from: \buildas3\data\Common\ltm\as3-pool.csv against template: \buildas3\templates\ltm\as3-pool.json
+Creating snippets for Partition:Common  Class:pool
 Done.
 
  ++ Creating AS3 Declaration for Partition: Common
    Collating config snippets for Application: Shared
-      adding : my-bigip-001.as3.Common.Shared.pool.json
+      adding : vm-bigip-001.as3.Common.Shared.pool.json
 Done.
-AS3 Declaration is in: \F5-AS3-Config\build\declarations\my-bigip-001.as3.Common.json
+AS3 Declaration is in: \F5-AS3-Config\build\declarations\azTenant1\vm-bigip-001\vm-bigip-001.as3.Common.json
 
 ```
 
@@ -273,20 +275,22 @@ We now have a fully formatted declaration which will be able to be run into the 
         "class": "ADC",
         "schemaVersion": "3.34.0",
         "remark": "ID: 645322443 BR: main PAR:Common",
-        "label": "ltm AS3 my-ltm1/Common RunID:2110407845",
+        "label": "ltm AS3 vm-bigip001/Common RunID:2110407845",
         "Common": {
             "class": "Tenant",
             "remark": "ID: 645322443 BR: main DATE: 04-12-23_12:00",
 			"Shared": {
                 "class": "Application",
-				"my-app01-pool-001": {
+				"pool-app01Server1": {
 					"class": "Pool",
-					"remark": "Pool 001 for App01",
+					"remark": "App01 Server 1 Pool",
 					"members": [
 						{
 							"serverAddresses": [
-								"192.168.1.10"
+								"192.168.100.1",
 							],
+							"adminState": "enable",
+							"shareNodes": true,
 							"servicePort": 443
 						}
 					]
