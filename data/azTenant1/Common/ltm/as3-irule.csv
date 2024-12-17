@@ -1,3 +1,0 @@
-device,application,Class:iRule,remark,irule:base64
-vm-bigip-001,Shared,irule-telemetryLocalRule,Telemetry Streaming,irule-telemetryLocalRule.tcl
-vm-bigip-001,Shared,irule-telemetryDnsReqLog,LTM Request Logging,irule-telemetryDnsReqLog.tcl

@@ -1,2 +1,0 @@
-device,application,Class:Security_Log_Profile,publisher
-vm-bigip-001,Shared,security-loggingProfile,logPublisher-telemetry

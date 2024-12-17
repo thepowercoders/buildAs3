@@ -46,6 +46,8 @@ $runID=Get-Random
 $FileCloseDelay=0
 # Get the repo branch if available to add to the declaration remark
 $repoBranch=(git rev-parse --abbrev-ref HEAD) 2> $null
+# Flag for No Data in Partition
+$global:noDataForPartition=$true
 
 $dirPath=(Get-Item $PSCommandPath ).DirectoryName
 $templateDir="$dirPath\templates"
@@ -189,6 +191,7 @@ function createConfigSnippit([string]$Device, [string]$APIClass, [object]$GroupI
     if(-Not($deviceData)){
         Write-Warning "No entries found for Device: $Device (or it's group(s): $GroupIDs) under Partition:\$Partition in data file: $dataFile`n"
     }else{
+        $global:noDataForPartition=$false
         # We will take the headers from the CSV file as these form the list of template parameters we need to replace
         $headers = ($deviceData | Get-member -MemberType 'NoteProperty' | Select-Object -ExpandProperty 'Name')
 
@@ -502,10 +505,18 @@ ForEach($bigip in $deviceList) {
         createConfigSnippit -Device $bigip -APIClass $APIClass -GroupIDs $deviceGroupOwnership
     }
 
-    Write-Host ("++ Creating AS3 Declaration for Device: **$bigip** in Azure Tenant: **$deviceAzureTenant** for Partition: **$Partition**"  | ConvertFrom-MarkDown -AsVt100EncodedString).VT100EncodedString
-    as3Declaration -Device $bigip -Partition $Partition -AzTenant $deviceAzureTenant
-    
-    # delete all created snippet files now we have valid declaration files
-    $dirPath=(Get-Item $PSCommandPath ).DirectoryName
-    Remove-Item $snippetDir\$bigip.*.json -Force
+    if($global:noDataForPartition){
+        Write-Host -ForegroundColor Red "`n++ Error: No Data found for Device: $bigip in Azure Tenant: $deviceAzureTenant for Partition: $Partition`n" 
+
+        # delete all created snippet files now we have valid declaration files
+        $dirPath=(Get-Item $PSCommandPath ).DirectoryName
+        Remove-Item $snippetDir\$bigip.*.json -Force
+    }else{
+        Write-Host ("++ Creating AS3 Declaration for Device: **$bigip** in Azure Tenant: **$deviceAzureTenant** for Partition: **$Partition**"  | ConvertFrom-MarkDown -AsVt100EncodedString).VT100EncodedString
+        as3Declaration -Device $bigip -Partition $Partition -AzTenant $deviceAzureTenant
+
+        # delete all created snippet files now we have valid declaration files
+        $dirPath=(Get-Item $PSCommandPath ).DirectoryName
+        Remove-Item $snippetDir\$bigip.*.json -Force
+    }
 }

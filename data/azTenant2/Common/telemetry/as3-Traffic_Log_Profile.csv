@@ -1,2 +1,2 @@
 device,application,Class:Traffic_Log_Profile,requestEnabled,requestPool,responseEnabled,responsePool
-vm-bigip-001,Shared,profile-ltmRequestLog,true,pool-telemetry,true,pool-telemetry
+vm-bigip-002,Shared,profile-ltmRequestLog,true,pool-telemetry,true,pool-telemetry

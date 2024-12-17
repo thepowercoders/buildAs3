@@ -1,2 +1,2 @@
 device,application,Class:Service_UDP,virtualPort,multi:allowVlans,remark,virtualAddresses,shareAddresses,profile_type,profile_use,profile_name,iRules_use,multi:iRules
-vm-bigip-001,Shared,vip-gslbListener,53,external,GSLB DNS listener,192.168.1.4,false,profileDNS,use,profileDns-gslb,use,irule-telemetryDnsReqLog
+vm-bigip-002,Shared,vip-gslbListener,53,external,GSLB DNS listener,192.168.1.4,false,profileDNS,use,profileDns-gslb,use,irule-telemetryDnsReqLog

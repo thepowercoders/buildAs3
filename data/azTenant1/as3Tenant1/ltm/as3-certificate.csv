@@ -1,0 +1,2 @@
+device,application,Class:Certificate,certificate,privateKey,chainCA
+vm-bigip-002,app01,cert-default,/Common/default.crt,/Common/default.key,!DELETE!

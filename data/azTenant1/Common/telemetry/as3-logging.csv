@@ -1,2 +1,0 @@
-device,application,Class:Log_Publisher,Log_Destination,remote-high-speed-log,pool
-vm-bigip-001,Shared,logPublisher-telemetry,logDestination-telemetry,logDestination-telemetryHsl,pool-telemetry

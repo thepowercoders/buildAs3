@@ -1,44 +1,169 @@
-> :memo: **Note:** This wiki was generated using [as3Markdown.ps1](https://github.com/thepowercoders/buildAs3/blob/main/as3Markdown.ps1) based on the AS3 configuration files on Dec 13 12:57:12.
+> :memo: **Note:** This wiki was generated using [as3Markdown.ps1](https://github.com/thepowercoders/buildas3/blob/main/as3Markdown.ps1) based on the AS3 configuration files on Dec 17 17:01:00.
 
 # Declarations
 This LLD is aligned to the following declarations:
 |device|declaration|ID|Branch|Partition|Date Created|
 |---|---|---|---|---|---|
-|vm-bigip-001|vm-bigip-001.as3.Common.json|1409130442|main|Common|13-12-24_09:42|
+|vm-bigip-001|vm-bigip-001.as3.as3Tenant1.json|759654624|main|as3Tenant1|17-12-24_16:42|
+|vm-bigip-001|vm-bigip-001.as3.Common.json|435439860|main|Common|17-12-24_16:41|
 # Devices
 The following devices are configured:
 |device|device group|AS3 Classes configured|
 |---|---|---|
-|vm-bigip-001|test-bigip|Pool, iRule, Log-Publisher, Security-Log-Profile, Traffic-Log-Profile|
-# AS3 Configuration for Partition: Common
+|vm-bigip-001||GSLB-Data-Center, GSLB-Server, GSLB-Domain, GSLB-Pool, Certificate, Monitor, Pool, Service-HTTPS, TLS-Client, TLS-Server|
+# AS3 Configuration for Partition: as3Tenant1
 
 
-## Class: iRule
+## Class: GSLB-Domain
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#irule
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#gslb-domain
 
-### iRule Template
+### GSLB-Domain Template
 
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/ltm/as3-irule.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/as3-GSLB_Domain.json
 
 ```json
-                "{{Class:iRule}}": {
-                    "class": "iRule",
-                    "remark": "{{remark}}",
-                    "iRule": {
-                        "base64": "{{irule:base64}}"
-                    }
-                },
+				"{{Class:GSLB_Domain}}": {
+					"class": "GSLB_Domain",
+					"domainName": "{{domainName}}",
+					"resourceRecordType": "{{resourceRecordType}}",
+					"pools": [
+						{ "use": "{{multi:pools}}" }
+					],
+					"poolLbMode": "{{poolLbMode}}"
+				},
 ```
 
-### iRule Data
+### GSLB-Domain Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/ltm/as3-irule.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/dns/as3-GSLB_Domain.csv
 
-|device|application|Class:iRule|remark|irule:base64|
+|device|application|Class:GSLB_Domain|domainName|resourceRecordType|multi:pools|poolLbMode|
+|---|---|---|---|---|---|---|
+vm-bigip-001|app01|gslbWip-app01|app01.wip.test.com|A|gslbPool-app01|global-availability
+
+## Class: GSLB-Pool
+
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#gslb-pool
+
+### GSLB-Pool Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/as3-GSLB_Pool.json
+
+```json
+				"{{Class:GSLB_Pool}}": {
+					"class": "GSLB_Pool",
+					"enabled": true,
+					"lbModePreferred": "{{lbModePreferred}}",
+					"lbModeAlternate": "{{lbModeAlternate}}",
+					"lbModeFallback": "{{lbModeFallback}}",
+					"manualResumeEnabled": false,
+					"verifyMemberEnabled": true,
+					"remark": "{{remark}}",
+					"members": [
+						{{subtable:GSLB_Pool_members}}
+					],
+					"bpsLimit": 0,
+					"bpsLimitEnabled": false,
+					"ppsLimit": 0,
+					"ppsLimitEnabled": false,
+					"connectionsLimit": 0,
+					"connectionsLimitEnabled": false,
+					"maxAnswersReturned": 1,
+					"resourceRecordType": "{{resourceRecordType}}",
+					"ttl": {{ttl}}
+				},
+```
+
+### GSLB-Pool Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/dns/as3-GSLB_Pool.csv
+
+|device|application|Class:GSLB_Pool|resourceRecordType|remark|subtable:GSLB_Pool_members|lbModePreferred|lbModeAlternate|lbModeFallback|ttl|
+|---|---|---|---|---|---|---|---|---|---|
+vm-bigip-001|app01|gslbPool-app01|A|Example WIP for app01|gslbPool-app01|ratio|global-availability|none|300
+
+### GSLB_Pool_members Subtable Data
+
+### GSLB-Pool Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/sub-GSLB_Pool_members.json.json
+
+```json
+						{
+							"ratio": {{ratio}},
+							"server": {
+								"{{use}}": "{{server}}"
+							},
+							"virtualServer": "{{virtualServer}}"
+						},
+```
+
+### GSLB-Pool Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/dns/sub-GSLB_Pool_members.csv
+
+|GSLB_Pool_members|ratio|use|server|virtualServer|
 |---|---|---|---|---|
-vm-bigip-001|Shared|irule-telemetryLocalRule|Telemetry Streaming|[irule-telemetryLocalRule.tcl](https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/irules/irule-telemetryLocalRule.tcl)
-vm-bigip-001|Shared|irule-telemetryDnsReqLog|LTM Request Logging|[irule-telemetryDnsReqLog.tcl](https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/irules/irule-telemetryDnsReqLog.tcl)
+gslbPool-app01|50|bigip|/Common/gslbServer-vm001|/as3Tenant1/app01/vs-vm002App01Server1
+gslbPool-app01|50|bigip|/Common/gslbServer-vm001|/as3Tenant1/app01/vs-vm002App01Server2
+
+## Class: Certificate
+
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#certificate
+
+### Certificate Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-certificate.json
+
+```json
+				"{{Class:Certificate}}": {
+					"class": "Certificate",
+					"certificate": { "bigip": "{{certificate}}" },
+					"privateKey": { "bigip": "{{privateKey}}" },
+					"chainCA": { "bigip": "{{chainCA}}" }
+				}
+```
+
+### Certificate Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-certificate.csv
+
+|device|application|Class:Certificate|certificate|privateKey|chainCA|
+|---|---|---|---|---|---|
+vm-bigip-002|app01|cert-default|/Common/default.crt|/Common/default.key|*not used*
+
+## Class: Monitor
+
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#monitor
+
+### Monitor Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-monitor_https.json
+
+```json
+				"{{Class:Monitor}}": {
+					"class": "Monitor",
+					"monitorType": "https",
+					"remark": "{{remark}}",
+					"clientTLS": { "use": "{{clientTLS}}" },
+					"send": "{{send}}",
+					"receiveDown": "{{receiveDown}}",
+					"receive": "{{receive}}",
+					"interval": {{interval}},
+					"timeUntilUp": 15,
+					"timeout": {{timeout}},
+					"targetPort": {{targetPort}}
+				}
+```
+
+### Monitor Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-monitor_https.csv
+
+|device|application|Class:Monitor|remark|targetPort|receiveDown|receive|send|interval|timeout|clientTLS|
+|---|---|---|---|---|---|---|---|---|---|---|
+vm-bigip-001|app01|monitor-app01|app01 Health Monitor|443|*not used*|200|GET / HTTP/1.1\r\nHost: app01.azure-api.net|20|61|servertls-app01
 
 ## Class: Pool
 
@@ -46,7 +171,7 @@ API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/lates
 
 ### Pool Template
 
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/ltm/as3-pool_simple.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-pool_simple.json
 
 ```json
 				"{{Class:Pool}}": {
@@ -71,266 +196,246 @@ Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/tem
 
 ### Pool Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/ltm/as3-pool_simple.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-pool_simple.csv
 
 |device|application|Class:Pool|remark|multi:serverAddresses|servicePort|multi:monitor|minimumMonitors|shareNodes|
 |---|---|---|---|---|---|---|---|---|
-vm-bigip-001|Shared|pool-telemetry|Telemetry Streaming to Azure Sentinel|255.255.255.254|6514|*not used*|*not used*|*not used*
+vm-bigip-001|app01|pool-app01Server1|App01 Server 1 Pool|192.168.100.1<br>192.168.100.2|443|monitor-app01|*not used*|true
+vm-bigip-001|app01|pool-app01Server2|App01 Server 2 Pool|192.168.200.1<br>192.168.200.2|443|monitor-app01|*not used*|true
 
-## Class: DNS-Profile
+## Class: Service-HTTPS
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#dns-profile
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#service-https
 
-### DNS-Profile Template
+### Service-HTTPS Template
 
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/ltm/as3-profile_dns.json
-
-```json
-				"{{Class:DNS_Profile}}": {
-					"class": "DNS_Profile",
-					"remark": "{{remark}}",
-					"parentProfile": {
-						"bigip": "/Common/dns"
-					},
-					"cacheEnabled": {{cacheEnabled}},
-					"cache": { "use" : "{{cache}}" },
-					"localBindServerEnabled": false,
-					"rapidResponseEnabled": false,
-					"unhandledQueryAction": "{{unhandledQueryAction}}",
-					"dnssecEnabled": false,
-					"globalServerLoadBalancingEnabled": {{globalServerLoadBalancingEnabled}},
-					"dnsExpressEnabled": false,
-					"zoneTransferEnabled": false,
-					"recursionDesiredEnabled": {{recursionDesiredEnabled}},
-					"securityEnabled": false
-				},
-```
-
-### DNS-Profile Data
-
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/ltm/as3-profile_dns.csv
-
-|device|application|Class:DNS_Profile|cacheEnabled|remark|cache|unhandledQueryAction|globalServerLoadBalancingEnabled|recursionDesiredEnabled|
-|---|---|---|---|---|---|---|---|---|
-vm-bigip-001|Shared|profileDns-gslb|false|DM DNS Internal Profile|*not used*|reject|true|true
-
-## Class: Service-TCP
-
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#service-tcp
-
-### Service-TCP Template
-
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/ltm/as3-service_TCP_simple.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-service_HTTPS.json
 
 ```json
-				"{{Class:Service_TCP}}": {
-					"class": "Service_TCP",
+				"{{Class:Service_HTTPS}}": {
+					"class": "Service_HTTPS",
 					"virtualAddresses": [
 						"{{virtualAddresses}}"
+						],
+					"shareAddresses": {{shareAddresses}},
+					"profileHTTP": {
+						"{{profileHTTP_use}}": "{{profileHTTP}}"
+					},
+					"profileTrafficLog": { "bigip": "{{profileTrafficLog}}" },
+					"pool": "{{pool}}",
+					"persistenceMethods": [],
+					"remark": "{{remark}}",
+					"addressStatus": true,
+					"allowVlans": [
+						"{{allowVlans}}"
 						],
 					"iRules": [
 						"{{multi:iRules}}"
 					],
-					"pool": "{{pool}}",
-					"remark": "{{remark}}",
-					"addressStatus": true,
 					"virtualPort": {{virtualPort}},
-					"allowVlans": ["{{allowVlans}}"],
+					"redirect80": false,
+					"snat": "{{snat}}",
+					"serverTLS": "{{serverTLS}}",
+					"clientTLS": "{{clientTLS}}",
+					"policyFirewallStaged": { "use": "{{policyFirewallStaged}}" },
+					"policyFirewallEnforced": { "use": "{{policyFirewallEnforced}}" },
+					"policyWAF": { "use": "{{policyWAF}}" },
+					"profileDOS": { "use": "{{profileDOS}}" },
+					"profileProtocolInspection": { "use": "{{profileProtocolInspection}}" },
+					"securityLogProfiles":  [{ "bigip": "{{securityLogProfiles}}" }]
 				},
 ```
 
-### Service-TCP Data
+### Service-HTTPS Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/ltm/as3-service_TCP_simple.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-service_HTTPS.csv
 
-|device|application|Class:Service_TCP|virtualPort|pool|remark|virtualAddresses|multi:iRules|allowVlans|
+|device|application|Class:Service_HTTPS|virtualAddresses|shareAddresses|profileHTTP_use|profileHTTP|profileTrafficLog|multi:iRules|pool|remark|allowVlans|virtualPort|snat|serverTLS|clientTLS|policyFirewallStaged|policyFirewallEnforced|policyWAF|profileDOS|profileProtocolInspection|securityLogProfiles|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+vm-bigip-001|app01|vs-vm001App01Server1|192.168.10.1|false|bigip|/Common/http|*not used*|*not used*|pool-app01Server1|Pool App01 Server 1|*not used*|443|auto|clienttls-app01|servertls-app01|*not used*|*not used*|*not used*|*not used*|*not used*|*not used*
+vm-bigip-001|app01|vs-vm001App01Server2|192.168.20.1|false|bigip|/Common/http|*not used*|*not used*|pool-app01Server2|Pool App01 Server 2|*not used*|443|auto|clienttls-app01|servertls-app01|*not used*|*not used*|*not used*|*not used*|*not used*|*not used*
+
+## Class: TLS-Client
+
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#tls-client
+
+### TLS-Client Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-tls_client.json
+
+```json
+                "{{Class:TLS_Client}}": {
+                    "class": "TLS_Client",
+                    "remark": "{{Class:TLS_Client}}",
+					"allowExpiredCRL": false,
+					"cipherGroup": { "bigip": "{{cipherGroup}}" },
+                    "authenticationFrequency": "every-time",
+                    "dtlsEnabled": false,
+                    "dtls1_2Enabled": false,
+                    "clientCertificate": "{{clientCertificate}}",
+					"validateCertificate": {{validateCertificate}},
+					"sendSNI": "{{sendSNI}}",
+                    "cacheTimeout": {{cacheTimeout}},
+                    "trustCA": { "bigip": "{{trustCA}}" }
+                },
+```
+
+### TLS-Client Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-tls_client.csv
+
+|device|application|Class:TLS_Client|clientCertificate|cipherGroup|trustCA|validateCertificate|sendSNI|cacheTimeout|
 |---|---|---|---|---|---|---|---|---|
-vm-bigip-001|Shared|vip-telemetryLocal|6514|pool-telemetry|Telemetry Streaming|255.255.255.254|irule-telemetryLocalRule|*not used*
+vm-bigip-001|app01|servertls-app01|cert-default|*not used*|/Common/default.crt|true|*not used*|*not used*
 
-## Class: Service-UDP
+## Class: TLS-Server
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#service-udp
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#tls-server
 
-### Service-UDP Template
+### TLS-Server Template
 
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/ltm/as3-service_UDP.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/ltm/as3-tls_server.json
 
 ```json
-			"{{Class:Service_UDP}}": {
-				"class": "Service_UDP",
-				"virtualAddresses": [
-					"{{virtualAddresses}}"
-				],
-				"shareAddresses": {{shareAddresses}},
-				"iRules": [
-					{"{{iRules_use}}": "{{multi:iRules}}"}
-				],
-				"virtualPort": {{virtualPort}},
-				"profileUDP": {
-					"bigip": "/Common/udp"
-				},
-				"{{profile_type}}": {
-					"{{profile_use}}": "{{profile_name}}"
-				},
-				"remark": "{{remark}}",
-				"allowVlans": [
-					"{{multi:allowVlans}}"
-				]
-			},
+                "{{Class:TLS_Server}}": {
+                    "class": "TLS_Server",
+                    "authenticationMode": "{{authenticationMode}}",
+                    "forwardProxyEnabled": false,
+                    "authenticationFrequency": "every-time",
+                    "remark": "{{Class:TLS_Server}}",
+                    "certificates": [
+                        {
+                            "certificate": "{{certificate}}"
+                        }
+                    ],
+                    "authenticationTrustCA": {
+                        "bigip": "{{authenticationTrustCA}}.crt"
+                    },
+                    "cacheTimeout": {{cacheTimeout}}
+                },
 ```
 
-### Service-UDP Data
+### TLS-Server Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/ltm/as3-service_UDP.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/as3Tenant1/ltm/as3-tls_server.csv
 
-|device|application|Class:Service_UDP|virtualPort|multi:allowVlans|remark|virtualAddresses|shareAddresses|profile_type|profile_use|profile_name|iRules_use|multi:iRules|
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-vm-bigip-001|Shared|vip-gslbListener|53|external|GSLB DNS listener|192.168.1.4|false|profileDNS|use|profileDns-gslb|use|irule-telemetryDnsReqLog
+|device|application|Class:TLS_Server|certificate|authenticationTrustCA|authenticationMode|cacheTimeout|
+|---|---|---|---|---|---|---|
+vm-bigip-001|app01|clienttls-app01|cert-default|/Common/ca-bundle|require|*not used*
+# AS3 Configuration for Partition: Common
 
-## Class: Log-Publisher
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#log-publisher
+## Class: GSLB-Data-Center
 
-### Log-Publisher Template
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#gslb-data-center
 
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/telemetry/as3-logging.json
+### GSLB-Data-Center Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/as3-GSLB_Data_Center.json
 
 ```json
-                "{{remote-high-speed-log}}": {
-                    "class": "Log_Destination",
-                    "type": "remote-high-speed-log",
-                    "protocol": "tcp",
-                    "pool": {
-                        "use": "{{pool}}"
-                    }
-                },
-                "{{Log_Destination}}": {
-                    "class": "Log_Destination",
-                    "type": "splunk",
-                    "forwardTo": {
-                        "use": "{{remote-high-speed-log}}"
-                    }
-                },
-                "{{Class:Log_Publisher}}": {
-                    "class": "Log_Publisher",
-                    "destinations": [
+                "{{Class:GSLB_Data_Center}}": {
+                    "class": "GSLB_Data_Center",
+                    "enabled": true,
+                    "location": "{{location}}",
+                    "remark": "{{remark}}",
+                    "proberPreferred": "{{proberPreferred}}",
+                    "proberFallback": "{{proberFallback}}"
+                }
+```
+
+### GSLB-Data-Center Data
+
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/Common/dns/as3-GSLB_Data_Center.csv
+
+|device|application|Class:GSLB_Data_Center|location|remark|proberPreferred|proberFallback|
+|---|---|---|---|---|---|---|
+vm-bigip-001|Shared|gslbDatacenter-azure|UK|Azure|inside-datacenter|any-available
+
+## Class: GSLB-Server
+
+API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#gslb-server
+
+### GSLB-Server Template
+
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/as3-GSLB_Server.json
+
+```json
+                "{{Class:GSLB_Server}}": {
+                    "class": "GSLB_Server",
+                    "dataCenter": {
+                        "use": "{{dataCenter}}"
+                    },
+                    "devices": [
+                        {{subtable:GSLB_Server_Device}}
+                    ],
+                    "monitors": [
                         {
-                            "use": "{{Log_Destination}}"
+                            "bigip": "{{GSLB_Monitor}}"
                         }
+                    ],
+                    "serverType": "{{serverType}}",
+                    "virtualServerDiscoveryMode": "{{virtualServerDiscoveryMode}}",
+                    "virtualServers": [
+                        {{subtable:GSLB_Server_vips}}
                     ]
                 },
 ```
 
-### Log-Publisher Data
+### GSLB-Server Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/telemetry/as3-logging.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/Common/dns/as3-GSLB_Server.csv
 
-|device|application|Class:Log_Publisher|Log_Destination|remote-high-speed-log|pool|
-|---|---|---|---|---|---|
-vm-bigip-001|Shared|logPublisher-telemetry|logDestination-telemetry|logDestination-telemetryHsl|pool-telemetry
+|device|application|Class:GSLB_Server|dataCenter|subtable:GSLB_Server_Device|GSLB_Monitor|serverType|virtualServerDiscoveryMode|subtable:GSLB_Server_vips|
+|---|---|---|---|---|---|---|---|---|
+vm-bigip-001|Shared|gslbServer-vm001|gslbDatacenter-azure|dc1|/Common/bigip|bigip|disabled|bigip-001-vips
 
-## Class: Security-Log-Profile
+### GSLB_Server_Device Subtable Data
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#security-log-profile
+### GSLB-Server Template
 
-### Security-Log-Profile Template
-
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/telemetry/as3-Security_Log_Profile.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/sub-GSLB_Server_Device.json.json
 
 ```json
-                "{{Class:Security_Log_Profile}}": {
-                    "class": "Security_Log_Profile",
-                    "application": {
-                        "localStorage": false,
-                        "remoteStorage": "splunk",
-                        "protocol": "tcp",
-                        "servers": [
-                            {
-                                "address": "127.0.0.1",
-                                "port": "6514"
-                            }
-                        ],
-                        "storageFilter": {
-                            "requestType": "all"
-                        }
-                    },
-                    "network": {
-                        "publisher": {
-                            "use": "{{publisher}}"
-                        },
-                        "logRuleMatchAccepts": false,
-                        "logRuleMatchRejects": true,
-                        "logRuleMatchDrops": true,
-                        "logIpErrors": true,
-                        "logTcpErrors": true,
-                        "logTcpEvents": true
-                    },
-                    "dosApplication": {
-                        "remotePublisher": {
-                            "use": "{{publisher}}"
-                        }
-                    },
-                    "dosNetwork": {
-                        "publisher": {
-                            "use": "{{publisher}}"
-                        }
-                    },
-                    "protocolDnsDos": {
-                        "publisher": {
-                            "use": "{{publisher}}"
-                        }
-                    },
-                    "protocolInspection": {
-                        "publisher": {
-                            "use": "{{publisher}}"
-                        },
-                        "logPacketPayloadEnabled": true
-                    }
-                }
+						{
+							"address": "{{address}}",
+							"addressTranslation": "{{addressTranslation}}",
+							"remark": "{{remark}}"
+						}
 ```
 
-### Security-Log-Profile Data
+### GSLB-Server Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/telemetry/as3-Security_Log_Profile.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/Common/dns/sub-GSLB_Server_Device.csv
 
-|device|application|Class:Security_Log_Profile|publisher|
+|GSLB_Server_Device|address|addressTranslation|remark|
 |---|---|---|---|
-vm-bigip-001|Shared|security-loggingProfile|logPublisher-telemetry
+dc1|192.168.1.5|*not used*|vm-bigip-001
 
-## Class: Traffic-Log-Profile
+### GSLB_Server_vips Subtable Data
 
-API Ref: https://clouddocs.f5.com/products/extensions/f5-appsvcs-extension/latest/refguide/schema-reference.html#traffic-log-profile
+### GSLB-Server Template
 
-### Traffic-Log-Profile Template
-
-Template File Location: https://github.com/thepowercoders/buildAs3/blob/main/templates/telemetry/as3-Traffic_Log_Profile.json
+Template File Location: https://github.com/thepowercoders/buildas3/blob/main/templates/dns/sub-GSLB_Server_vips.json.json
 
 ```json
-                "{{Class:Traffic_Log_Profile}}": {
-                    "class": "Traffic_Log_Profile",
-                    "requestSettings": {
-                        "requestEnabled": {{requestEnabled}},
-                        "requestProtocol": "mds-tcp",
-                        "requestPool": {
-                            "use": "{{requestPool}}"
-                        },
-                        "requestTemplate": "event_source=\"request_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",dest_ip=\"$VIRTUAL_IP\",dest_port=\"$VIRTUAL_PORT\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",Microtimestamp=\"$TIME_USECS\""
-                    },
-                    "responseSettings": {
-                        "responseEnabled": {{responseEnabled}},
-                        "responseProtocol": "mds-tcp",
-                        "responsePool": {
-                            "use": "{{responsePool}}"
-                        },
-                        "responseTemplate": "event_source=\"response_logging\",hostname=\"$BIGIP_HOSTNAME\",client_ip=\"$CLIENT_IP\",server_ip=\"$SERVER_IP\",http_method=\"$HTTP_METHOD\",http_uri=\"$HTTP_URI\",virtual_name=\"$VIRTUAL_NAME\",event_timestamp=\"$DATE_HTTP\",http_statcode=\"$HTTP_STATCODE\",http_status=\"$HTTP_STATUS\",Microtimestamp=\"$TIME_USECS\",response_ms=\"$RESPONSE_MSECS\""
-                    }
-                },            
+						{
+							"address": "{{address}}",
+							"monitors": [
+								{
+									"{{monitors}}": "{{GSLB_Monitor}}"
+								}
+							],
+							"name": "{{name}}",
+							"port": {{port}}
+						}
 ```
 
-### Traffic-Log-Profile Data
+### GSLB-Server Data
 
-Data File Location: https://github.com/thepowercoders/buildAs3/blob/main/data/azTenant1/Common/telemetry/as3-Traffic_Log_Profile.csv
+Data File Location: https://github.com/thepowercoders/buildas3/blob/main/data/azTenant1/Common/dns/sub-GSLB_Server_vips.csv
 
-|device|application|Class:Traffic_Log_Profile|requestEnabled|requestPool|responseEnabled|responsePool|
-|---|---|---|---|---|---|---|
-vm-bigip-001|Shared|profile-ltmRequestLog|true|pool-telemetry|true|pool-telemetry
+|GSLB_Server_vips|address|monitors|GSLB_Monitor|name|port|
+|---|---|---|---|---|---|
+bigip-001-vips|192.168.10.1|bigip|/Common/bigip|/as3Tenant1/app01/vs-vm001App01Server1|443
+bigip-001-vips|192.168.20.1|bigip|/Common/bigip|/as3Tenant1/app01/vs-vm001App01Server2|443

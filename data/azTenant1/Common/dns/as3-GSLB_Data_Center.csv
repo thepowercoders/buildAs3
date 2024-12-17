@@ -1,0 +1,2 @@
+device,application,Class:GSLB_Data_Center,location,remark,proberPreferred,proberFallback
+vm-bigip-001,Shared,gslbDatacenter-azure,UK,Azure,inside-datacenter,any-available

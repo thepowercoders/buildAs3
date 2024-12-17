@@ -1,0 +1,2 @@
+device,application,Class:Monitor,remark,targetPort,receiveDown,receive,send,interval,timeout,clientTLS
+vm-bigip-001,app01,monitor-app01,app01 Health Monitor,443,!DELETE!,200,GET / HTTP/1.1\r\nHost: app01.azure-api.net,20,61,servertls-app01

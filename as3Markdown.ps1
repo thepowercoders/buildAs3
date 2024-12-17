@@ -65,10 +65,15 @@ function printHeaderText
     # ADO uses the 'TOC' keyboard to write a table of contents, github autogenerates one.
     if($OutputADO){Write-Output "[[_TOC_]]`n`n"}
     $DeviceData=(Get-Content -Path $deviceList | ConvertFrom-Json)
-    $devices=$DeviceData | Get-member -MemberType 'NoteProperty' | Select-Object -ExpandProperty 'Name'
+    $devices = ($DeviceData.PSObject.Properties | Where-Object {$_.Value.azureTenant -eq "$AzTenant"}).Name
+    #$devices=$DeviceData | Get-member -MemberType 'NoteProperty' | Select-Object -ExpandProperty 'Name'
     Write-Host "getting declaration information..."
     Write-Output "# Declarations`nThis LLD is aligned to the following declarations:`n|device|declaration|ID|Branch|Partition|Date Created|`n|---|---|---|---|---|---|"
     foreach ($device in $devices) {
+        if(!( Test-Path "$declareDir\$device" -Filter "*.as3.*.json")){
+            Write-Error -Message "Cannot find declaration for device: $device in $declareDir\$device"
+            Exit 1
+        }        
         $declarations=Get-ChildItem -Name "$declareDir\$device" -Filter "*.as3.*.json"
         foreach ($declaration in $declarations) {
             $remarkIDs = Select-String -Path "$declareDir\$device\$declaration" -Pattern '"remark": "(ID:\d+ BR:[\w-]+ \w+:[\w-:]+)"' | Select-Object -ExpandProperty Matches

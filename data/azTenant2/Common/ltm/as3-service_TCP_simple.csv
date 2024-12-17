@@ -1,0 +1,2 @@
+device,application,Class:Service_TCP,virtualPort,pool,remark,virtualAddresses,multi:iRules,allowVlans
+vm-bigip-002,Shared,vip-telemetryLocal,6514,pool-telemetry,Telemetry Streaming,255.255.255.254,irule-telemetryLocalRule,!DELETE!

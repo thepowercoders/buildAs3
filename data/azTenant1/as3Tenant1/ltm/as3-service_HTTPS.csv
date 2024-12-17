@@ -1,0 +1,3 @@
+device,application,Class:Service_HTTPS,virtualAddresses,shareAddresses,profileHTTP_use,profileHTTP,profileTrafficLog,multi:iRules,pool,remark,allowVlans,virtualPort,snat,serverTLS,clientTLS,policyFirewallStaged,policyFirewallEnforced,policyWAF,profileDOS,profileProtocolInspection,securityLogProfiles
+vm-bigip-001,app01,vs-vm001App01Server1,192.168.10.1,false,bigip,/Common/http,!DELETE!,!DELETE!,pool-app01Server1,Pool App01 Server 1,!DELETE!,443,auto,clienttls-app01,servertls-app01,!DELETE!,!DELETE!,!DELETE!,!DELETE!,!DELETE!,!DELETE!
+vm-bigip-001,app01,vs-vm001App01Server2,192.168.20.1,false,bigip,/Common/http,!DELETE!,!DELETE!,pool-app01Server2,Pool App01 Server 2,!DELETE!,443,auto,clienttls-app01,servertls-app01,!DELETE!,!DELETE!,!DELETE!,!DELETE!,!DELETE!,!DELETE!

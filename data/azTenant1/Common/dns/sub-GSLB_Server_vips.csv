@@ -1,0 +1,3 @@
+GSLB_Server_vips,address,monitors,GSLB_Monitor,name,port
+bigip-001-vips,192.168.10.1,bigip,/Common/bigip,/as3Tenant1/app01/vs-vm001App01Server1,443
+bigip-001-vips,192.168.20.1,bigip,/Common/bigip,/as3Tenant1/app01/vs-vm001App01Server2,443

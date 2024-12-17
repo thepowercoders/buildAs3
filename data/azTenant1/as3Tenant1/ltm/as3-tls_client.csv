@@ -1,0 +1,2 @@
+device,application,Class:TLS_Client,clientCertificate,cipherGroup,trustCA,validateCertificate,sendSNI,cacheTimeout
+vm-bigip-001,app01,servertls-app01,cert-default,!DELETE!,/Common/default.crt,true,!DELETE!,!DELETE!

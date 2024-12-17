@@ -1,0 +1,2 @@
+device,application,Class:TLS_Server,certificate,authenticationTrustCA,authenticationMode,cacheTimeout
+vm-bigip-001,app01,clienttls-app01,cert-default,/Common/ca-bundle,require,!DELETE!

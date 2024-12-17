@@ -1,2 +1,2 @@
 device,application,Class:DNS_Profile,cacheEnabled,remark,cache,unhandledQueryAction,globalServerLoadBalancingEnabled,recursionDesiredEnabled
-vm-bigip-001,Shared,profileDns-gslb,false,DM DNS Internal Profile,!DELETE!,reject,true,true
+vm-bigip-002,Shared,profileDns-gslb,false,DM DNS Internal Profile,!DELETE!,reject,true,true

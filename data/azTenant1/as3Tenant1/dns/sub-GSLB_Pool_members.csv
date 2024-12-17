@@ -1,0 +1,3 @@
+GSLB_Pool_members,ratio,use,server,virtualServer
+gslbPool-app01,50,bigip,/Common/gslbServer-vm001,/as3Tenant1/app01/vs-vm002App01Server1
+gslbPool-app01,50,bigip,/Common/gslbServer-vm001,/as3Tenant1/app01/vs-vm002App01Server2

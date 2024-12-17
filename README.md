@@ -16,6 +16,7 @@ It is sent using the Terraform [F5Networks/bigip provider](https://registry.terr
      -Partition <partition-name>
     [-Detail]
     [-NoGSLBPool]
+	[-IncludeSchema]
 ```
 
 ## EXAMPLES
@@ -87,6 +88,11 @@ This switch is used to show more detailed output when the script is run. Normall
 This switch is used to ignore any data for the device from AS3 Class:GSLB_Pool. This is useful when building `/Common` declarations containing GSLB Pools where the members are in other partitions 
 as if you are building for the first time, these partitions may not be built. Also, you may be building a DNS before the LTMs (which the GSLB Pools reference) are built. Therefore, this switch just ignores
 this data class. You can then re-run build without this switch to update the declaration afterwards.
+
+### <tt>-IncludeSchema</tt>
+This switch is used to add the schema reference (the '$schema' property) which is set to the latest AS3 schema. Only include this when you want to validate the declaration in the Visual Studio Code editor. 
+
+**Important:** When deploying, this property is not stored in the running declaration so does not appear on a subsequent GET. The Terraform `bigip_bigiq_as3` resource checks the running declaration and, seeing this not present, causes Terraform to believe a change is needed to 're-add' it. Therefore, do not use this switch for declarations which are added via Terraform.
 
 
 ## File Requirements

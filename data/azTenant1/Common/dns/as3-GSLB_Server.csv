@@ -1,0 +1,2 @@
+device,application,Class:GSLB_Server,dataCenter,subtable:GSLB_Server_Device,GSLB_Monitor,serverType,virtualServerDiscoveryMode,subtable:GSLB_Server_vips
+vm-bigip-001,Shared,gslbServer-vm001,gslbDatacenter-azure,dc1,/Common/bigip,bigip,disabled,bigip-001-vips

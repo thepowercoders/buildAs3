@@ -1,0 +1,2 @@
+device,application,Class:GSLB_Pool,resourceRecordType,remark,subtable:GSLB_Pool_members,lbModePreferred,lbModeAlternate,lbModeFallback,ttl
+vm-bigip-001,app01,gslbPool-app01,A,Example WIP for app01,gslbPool-app01,ratio,global-availability,none,300

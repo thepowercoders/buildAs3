@@ -1,0 +1,2 @@
+device,application,Class:GSLB_Domain,domainName,resourceRecordType,multi:pools,poolLbMode
+vm-bigip-001,app01,gslbWip-app01,app01.wip.test.com,A,gslbPool-app01,global-availability
