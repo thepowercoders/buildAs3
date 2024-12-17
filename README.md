@@ -41,20 +41,29 @@ buildAs3.ps1 -DeviceGroup mybigip-group -Partition Common
 
 The script outputs it's progress and any errors to standard output (screen). 
 
+```diff
+- text in red
++ text in green
+! text in orange
+# text in gray
+@@ text in purple (and bold)@@
 ```
+
+
+``` diff
 $ .\buildAs3.ps1 -Device vm-bigip-001 -Partition Common
 
 + Creating AS3 Config Snippits for Device: vm-bigip-001 in Azure Tenant: azTenant1
 
-Loading Data from: .\data\Common\dns\as3-GSLB_Data_Center.csv against template: .\templates\dns\as3-GSLB_Data_Center.json
+- Loading Data from: .\data\Common\dns\as3-GSLB_Data_Center.csv against template: .\templates\dns\as3-GSLB_Data_Center.json
 Creating snippets for Class:GSLB_Data_Center
 Done.
 
-Loading Data from: .\data\Common\dns\as3-GSLB_Server.csv against template: .\templates\dns\as3-GSLB_Server.json
+- Loading Data from: .\data\Common\dns\as3-GSLB_Server.csv against template: .\templates\dns\as3-GSLB_Server.json
 Creating snippets for Class:GSLB_Server
 Creating snippets for subtable:GSLB_Server_Device  Value:dc1
 Creating snippets for subtable:GSLB_Server_vips  Value:bigip-001-vips
-Done.
++ Done.
 
 <output continues for all classes...>
 
@@ -63,7 +72,7 @@ Done.
    Collating config snippets for Application: Shared
       adding : vm-bigip-001.as3.Common.Shared.GSLB_Data_Center.json
       adding : vm-bigip-001.as3.Common.Shared.GSLB_Server.json
-Done.
++ Done.
 AS3 Declaration output to: .\buildAs3\declarations\azTenant1\vm-bigip-001\vm-bigip-001.as3.Common.json
 ```
 
@@ -113,7 +122,7 @@ Each device object needs the following properties :
 
 \* The class names are in the format of the corresponding data and template filenames - see data and template files below.
 
-*Example devicelist.csv file:*
+*Example devicelist.json file:*
 ```
 {
 	"vm-bigip-001" : {
@@ -209,7 +218,8 @@ Now we go through the snippet and parameterize all the values which may change d
 						}
 					]
 				},
-````
+```
+
 * The last line is usually added with a close brace and comma. The comma is not essential - the script will remove this last line and add a '},' or '}' accordingly depending on whether there are additional classes below this one when it generates the declaration.
 
 > **Important:** Make sure the template starts with the class name (parameterized as `Class:<class-name>`) and ends with the closing brace for the class json snippet.
@@ -250,18 +260,18 @@ Once added, we can test using the buildAs3 command:
 ` ./buildAs3.ps1 -Device vm-bigip-001 -Partition Common`
 
 **Example Output:**
-```bash
+
+``` diff
 + Creating AS3 Config Snippits for LTM Device: vm-bigip-001 in Azure Tenant: azTenant1
-Loading Data from: \buildas3\data\Common\ltm\as3-pool.csv against template: \buildas3\templates\ltm\as3-pool.json
+- Loading Data from: \buildas3\data\Common\ltm\as3-pool.csv against template: \buildas3\templates\ltm\as3-pool.json
 Creating snippets for Partition:Common  Class:pool
-Done.
++ Done.
 
  ++ Creating AS3 Declaration for Partition: Common
    Collating config snippets for Application: Shared
       adding : vm-bigip-001.as3.Common.Shared.pool.json
-Done.
++ Done.
 AS3 Declaration is in: \F5-AS3-Config\build\declarations\azTenant1\vm-bigip-001\vm-bigip-001.as3.Common.json
-
 ```
 
 We now have a fully formatted declaration which will be able to be run into the big-ip:
@@ -377,7 +387,7 @@ When the column header is of this format, the row value given is the name of the
 
 Example:
 The following \data\dns template is used to create the cache using AS3 class 'DNS_Cache':
-```
+```json
 				"{{Class:DNS_Cache}}": {
 					"class": "DNS_Cache",
 					"type": "{{type}}",
@@ -387,12 +397,12 @@ The following \data\dns template is used to create the cache using AS3 class 'DN
 				},
 ```
 This takes data from the corresponding data file which has the 'subtable' option and will load another template called 'DNS_Cache_localZones':
-```
+```csv
 device,partition,application,Class:DNS_Cache,type,subtable:DNS_Cache_localZones
 myf5-vm001,Common,Shared,f5-internal-dnscache,transparent,mylocaldns
 ```
 
-```
+```json
 						"{{localZone}}": {
 							"type": "{{type}}",
 							"records": [
@@ -416,6 +426,7 @@ myf5-vm002.mydomain.com. 3600 A 192.168.200.2
 
 The resulting JSON AS3 will look like this:
 
+```json
 				"f5-internal-dnscache": {
 					"class": "DNS_Cache",
 					"type": "transparent",
@@ -429,3 +440,4 @@ The resulting JSON AS3 will look like this:
 						},
 					}
 				},
+```
